@@ -2,7 +2,6 @@
 <html lang="ja">
 
 <head>
-
 <meta charset="UTF-8">
 
 <meta
@@ -12,7 +11,6 @@
 
 <title>曲データ編集</title>
 
-
 <style>
 
 /* =========================
@@ -21,6 +19,10 @@
 
 * {
   box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
@@ -45,13 +47,15 @@ body {
   min-height: 100vh;
 }
 
-
 button,
 input,
 select {
   font: inherit;
 }
 
+button {
+  -webkit-tap-highlight-color: transparent;
+}
 
 .container {
   width: 100%;
@@ -59,9 +63,10 @@ select {
 
   margin: auto;
 
+  /* 下部固定パネルに隠れないよう余白を確保 */
   padding:
     18px 9px
-    100px;
+    260px;
 }
 
 
@@ -79,7 +84,6 @@ h1 {
 
   font-size: 22px;
 }
-
 
 .count {
   margin-bottom: 14px;
@@ -104,7 +108,6 @@ h1 {
   margin-bottom: 10px;
 }
 
-
 button {
   border: 0;
 
@@ -112,7 +115,6 @@ button {
 
   cursor: pointer;
 }
-
 
 .add-button,
 .download-button {
@@ -126,11 +128,9 @@ button {
   font-weight: bold;
 }
 
-
 .add-button {
   background: #e8759e;
 }
-
 
 .download-button {
   background: #bd557a;
@@ -162,6 +162,14 @@ button {
   font-size: 16px;
 }
 
+#search:focus {
+  border-color: #db759a;
+
+  box-shadow:
+    0 0 0 3px
+    rgba(219, 117, 154, 0.10);
+}
+
 
 /* =========================
    フィルター
@@ -172,9 +180,8 @@ button {
 
   gap: 6px;
 
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
-
 
 .filters select {
   flex: 1;
@@ -202,103 +209,31 @@ button {
 
 
 /* =========================
-   選択操作
+   表示中を選択
 ========================= */
 
-.selection-panel {
-  display: none;
-
-  margin-bottom: 10px;
-
-  padding: 10px;
-
-  border:
-    1px solid #efbfd0;
-
-  border-radius: 12px;
-
-  background: #fff5f8;
-}
-
-
-.selection-panel.show {
-  display: block;
-}
-
-
-.selection-count {
-  margin-bottom: 8px;
-
-  color: #bd557a;
-
-  font-size: 13px;
-  font-weight: bold;
-}
-
-
-.move-buttons {
-  display: grid;
-
-  grid-template-columns:
-    repeat(4, 1fr);
-
-  gap: 5px;
-}
-
-
-.move-buttons button {
-  height: 34px;
-
-  background: white;
-
-  border:
-    1px solid #efbfd0;
-
-  color: #b85679;
-
-  font-size: 12px;
-}
-
-
-.position-row {
+.select-tools {
   display: flex;
 
   gap: 6px;
 
-  margin-top: 7px;
+  margin-bottom: 10px;
 }
 
-
-#movePosition {
+.select-visible-button {
   flex: 1;
 
-  min-width: 0;
-
   height: 36px;
-
-  padding:
-    0 10px;
 
   border:
     1px solid #efbfd0;
 
-  border-radius: 8px;
+  background: #fff;
 
-  background: white;
-
-  font-size: 14px;
-}
-
-
-.position-button {
-  padding:
-    0 12px;
-
-  background: #e8759e;
-
-  color: white;
+  color: #b85679;
 
   font-size: 12px;
+  font-weight: 600;
 }
 
 
@@ -311,14 +246,14 @@ button {
 
   align-items: center;
 
-  gap: 7px;
+  gap: 6px;
 
   min-height: 57px;
 
   margin-bottom: 5px;
 
   padding:
-    7px 7px;
+    7px;
 
   border:
     1px solid #f4ccd9;
@@ -328,15 +263,11 @@ button {
   background: white;
 }
 
-
-/* 選択された曲 */
-
 .song.selected {
   border-color: #dc769c;
 
   background: #fff3f7;
 }
-
 
 .select-song {
   flex-shrink: 0;
@@ -350,13 +281,11 @@ button {
   accent-color: #e8759e;
 }
 
-
 .song-info {
   flex: 1;
 
   min-width: 0;
 }
-
 
 .song-title {
   margin-bottom: 2px;
@@ -373,7 +302,6 @@ button {
   text-overflow: ellipsis;
 }
 
-
 .song-meta {
   overflow: hidden;
 
@@ -385,7 +313,6 @@ button {
 
   text-overflow: ellipsis;
 }
-
 
 .edit-button,
 .delete-button {
@@ -399,18 +326,174 @@ button {
   font-size: 11px;
 }
 
-
 .edit-button {
   background: #ffe3ed;
 
   color: #b94f74;
 }
 
-
 .delete-button {
   background: #f4f4f4;
 
   color: #888;
+}
+
+
+/* =========================
+   下部固定 選択操作
+========================= */
+
+.selection-panel {
+  display: none;
+
+  position: fixed;
+
+  left: 50%;
+  bottom: 10px;
+
+  transform:
+    translateX(-50%);
+
+  z-index: 1000;
+
+  width:
+    calc(100% - 16px);
+
+  max-width: 680px;
+
+  padding: 10px;
+
+  border:
+    1px solid #efbfd0;
+
+  border-radius: 14px;
+
+  background:
+    rgba(
+      255,
+      245,
+      248,
+      0.97
+    );
+
+  box-shadow:
+    0 4px 20px
+    rgba(
+      100,
+      40,
+      60,
+      0.18
+    );
+
+  backdrop-filter:
+    blur(8px);
+
+  -webkit-backdrop-filter:
+    blur(8px);
+}
+
+.selection-panel.show {
+  display: block;
+}
+
+.selection-header {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 8px;
+
+  margin-bottom: 8px;
+}
+
+.selection-count {
+  color: #bd557a;
+
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.clear-selection {
+  min-height: 32px;
+
+  padding:
+    0 10px;
+
+  border:
+    1px solid #ddd;
+
+  background: white;
+
+  color: #777;
+
+  font-size: 11px;
+}
+
+.move-buttons {
+  display: grid;
+
+  grid-template-columns:
+    repeat(4, 1fr);
+
+  gap: 5px;
+}
+
+.move-buttons button {
+  min-height: 36px;
+
+  border:
+    1px solid #efbfd0;
+
+  background: white;
+
+  color: #b85679;
+
+  font-size: 12px;
+}
+
+.position-row {
+  display: flex;
+
+  gap: 6px;
+
+  margin-top: 7px;
+}
+
+#movePosition {
+  flex: 1;
+
+  min-width: 0;
+
+  height: 38px;
+
+  padding:
+    0 10px;
+
+  border:
+    1px solid #efbfd0;
+
+  border-radius: 8px;
+
+  outline: none;
+
+  background: white;
+
+  font-size: 16px;
+}
+
+.position-button {
+  min-height: 38px;
+
+  padding:
+    0 12px;
+
+  background: #e8759e;
+
+  color: white;
+
+  font-size: 12px;
+  font-weight: bold;
 }
 
 
@@ -425,7 +508,7 @@ button {
 
   inset: 0;
 
-  z-index: 100;
+  z-index: 2000;
 
   align-items: center;
   justify-content: center;
@@ -441,11 +524,9 @@ button {
     );
 }
 
-
 .modal.show {
   display: flex;
 }
-
 
 .form {
   width: 100%;
@@ -467,7 +548,6 @@ button {
     );
 }
 
-
 .form h2 {
   margin:
     0 0 18px;
@@ -476,7 +556,6 @@ button {
 
   font-size: 19px;
 }
-
 
 .form label {
   display: block;
@@ -488,7 +567,6 @@ button {
 
   font-size: 12px;
 }
-
 
 .form input[type="text"],
 .form select {
@@ -508,7 +586,6 @@ button {
   font-size: 16px;
 }
 
-
 .favorite-row {
   display: flex;
 
@@ -520,14 +597,12 @@ button {
     15px 0;
 }
 
-
 .favorite-row input {
   width: 19px;
   height: 19px;
 
   accent-color: #e8759e;
 }
-
 
 .form-buttons {
   display: flex;
@@ -537,7 +612,6 @@ button {
   margin-top: 18px;
 }
 
-
 .cancel,
 .save {
   flex: 1;
@@ -545,11 +619,9 @@ button {
   height: 40px;
 }
 
-
 .cancel {
   background: #eee;
 }
-
 
 .save {
   background: #e8759e;
@@ -558,7 +630,6 @@ button {
 
   font-weight: bold;
 }
-
 
 .back {
   display: block;
@@ -584,14 +655,12 @@ button {
   .container {
     padding:
       16px 8px
-      100px;
+      260px;
   }
-
 
   .song {
     gap: 5px;
   }
-
 
   .edit-button,
   .delete-button {
@@ -600,7 +669,6 @@ button {
 
     font-size: 10px;
   }
-
 
   .move-buttons {
     grid-template-columns:
@@ -615,7 +683,6 @@ button {
 
 
 <body>
-
 
 <div class="container">
 
@@ -636,7 +703,6 @@ button {
   >
     ＋ 曲を追加
   </button>
-
 
   <button
     class="download-button"
@@ -685,9 +751,39 @@ button {
 </div>
 
 
+<!-- 表示中をまとめて選択 -->
+
+<div class="select-tools">
+
+  <button
+    class="select-visible-button"
+    onclick="selectVisible()"
+  >
+    ☑ 表示中をすべて選択
+  </button>
+
+</div>
+
+
+<!-- 曲一覧 -->
+
+<div id="songList"></div>
+
+
+<a
+  class="back"
+  href="index.html"
+>
+  ← 曲リストに戻る
+</a>
+
+
+</div>
+
+
 
 <!-- ======================
-     複数選択操作
+     下部固定 移動パネル
 ====================== -->
 
 <div
@@ -695,11 +791,23 @@ button {
   class="selection-panel"
 >
 
-  <div
-    id="selectionCount"
-    class="selection-count"
-  >
-    0曲選択中
+  <div class="selection-header">
+
+    <div
+      id="selectionCount"
+      class="selection-count"
+    >
+      0曲選択中
+    </div>
+
+
+    <button
+      class="clear-selection"
+      onclick="clearSelection()"
+    >
+      ✕ 選択キャンセル
+    </button>
+
   </div>
 
 
@@ -730,6 +838,7 @@ button {
       id="movePosition"
       type="number"
       min="1"
+      inputmode="numeric"
       placeholder="移動先の番号"
     >
 
@@ -745,20 +854,6 @@ button {
 </div>
 
 
-<div id="songList"></div>
-
-
-<a
-  class="back"
-  href="index.html"
->
-  ← 曲リストに戻る
-</a>
-
-
-</div>
-
-
 
 <!-- ======================
      曲編集
@@ -768,7 +863,6 @@ button {
   id="modal"
   class="modal"
 >
-
 
 <div class="form">
 
@@ -839,7 +933,6 @@ button {
     キャンセル
   </button>
 
-
   <button
     class="save"
     onclick="saveSong()"
@@ -864,10 +957,8 @@ let editingIndex = null;
 
 
 /*
-  選択している曲を管理
-
-  indexではなく曲オブジェクトそのものを
-  Setに入れることで、並び替えても選択状態を維持
+  選択中の曲は曲オブジェクト自体で管理する
+  並び替えても選択状態を維持できる
 */
 
 const selectedSongs =
@@ -900,7 +991,6 @@ async function loadCSV() {
       await response.text();
 
 
-    // BOM削除
     text =
       text.replace(
         /^\uFEFF/,
@@ -943,7 +1033,6 @@ function parseCSV(text) {
       .split(/\r?\n/);
 
 
-  // 見出し削除
   lines.shift();
 
 
@@ -1059,7 +1148,7 @@ function parseLine(line) {
 
 
 /* =========================
-   ジャンル一覧
+   ジャンル
 ========================= */
 
 function getGenres() {
@@ -1091,7 +1180,7 @@ function createGenreOptions() {
     getGenres();
 
 
-  /* 絞り込み */
+  /* 一覧フィルター */
 
   const filter =
     document.getElementById(
@@ -1182,16 +1271,12 @@ function createGenreOptions() {
 
 
 /* =========================
-   一覧
+   現在表示対象か判定
 ========================= */
 
-function render() {
-
-  const list =
-    document.getElementById(
-      "songList"
-    );
-
+function isSongVisible(
+  song
+) {
 
   const keyword =
     document
@@ -1219,76 +1304,101 @@ function render() {
       .value;
 
 
+  const matchesSearch =
+
+    song.title
+      .toLowerCase()
+      .includes(
+        keyword
+      )
+
+    ||
+
+    song.artist
+      .toLowerCase()
+      .includes(
+        keyword
+      );
+
+
+  const matchesGenre =
+
+    selectedGenre ===
+      "すべて"
+
+    ||
+
+    song.genre ===
+      selectedGenre;
+
+
+  const matchesFavorite =
+
+    favoriteFilter ===
+      "all"
+
+    ||
+
+    (
+      favoriteFilter ===
+        "favorite"
+
+      &&
+
+      song.favorite
+    )
+
+    ||
+
+    (
+      favoriteFilter ===
+        "normal"
+
+      &&
+
+      !song.favorite
+    );
+
+
+  return (
+    matchesSearch
+    &&
+    matchesGenre
+    &&
+    matchesFavorite
+  );
+
+}
+
+
+
+/* =========================
+   一覧表示
+========================= */
+
+function render() {
+
+  const list =
+    document.getElementById(
+      "songList"
+    );
+
+
   list.innerHTML = "";
 
 
-  let visible = 0;
+  let visible =
+    0;
 
 
   songs.forEach(
     (song, index) => {
 
 
-      const matchesSearch =
-
-        song.title
-          .toLowerCase()
-          .includes(
-            keyword
-          )
-
-        ||
-
-        song.artist
-          .toLowerCase()
-          .includes(
-            keyword
-          );
-
-
-      const matchesGenre =
-
-        selectedGenre ===
-          "すべて"
-
-        ||
-
-        song.genre ===
-          selectedGenre;
-
-
-      const matchesFavorite =
-
-        favoriteFilter ===
-          "all"
-
-        ||
-
-        (
-          favoriteFilter ===
-            "favorite"
-
-          &&
-
-          song.favorite
-        )
-
-        ||
-
-        (
-          favoriteFilter ===
-            "normal"
-
-          &&
-
-          !song.favorite
-        );
-
-
       if (
-        !matchesSearch ||
-        !matchesGenre ||
-        !matchesFavorite
+        !isSongVisible(
+          song
+        )
       ) {
 
         return;
@@ -1323,7 +1433,9 @@ function render() {
 
 
 
-      /* チェック */
+      /* =====================
+         チェック
+      ===================== */
 
       const checkbox =
         document.createElement(
@@ -1371,7 +1483,9 @@ function render() {
 
 
 
-      /* 曲情報 */
+      /* =====================
+         曲情報
+      ===================== */
 
       const info =
         document.createElement(
@@ -1393,7 +1507,13 @@ function render() {
         "song-title";
 
 
+      /*
+        index + 1 がCSV上での曲番号
+      */
+
       title.textContent =
+        `${index + 1}. `
+        +
         (
           song.favorite
             ? "⭐ "
@@ -1433,7 +1553,9 @@ function render() {
 
 
 
-      /* 編集 */
+      /* =====================
+         編集
+      ===================== */
 
       const edit =
         document.createElement(
@@ -1456,7 +1578,9 @@ function render() {
 
 
 
-      /* 削除 */
+      /* =====================
+         削除
+      ===================== */
 
       const del =
         document.createElement(
@@ -1513,6 +1637,59 @@ function render() {
 
 
   updateSelectionPanel();
+
+}
+
+
+
+/* =========================
+   表示中をすべて選択
+========================= */
+
+function selectVisible() {
+
+  songs.forEach(
+    song => {
+
+      if (
+        isSongVisible(
+          song
+        )
+      ) {
+
+        selectedSongs.add(
+          song
+        );
+
+      }
+
+    }
+  );
+
+
+  render();
+
+}
+
+
+
+/* =========================
+   選択キャンセル
+========================= */
+
+function clearSelection() {
+
+  selectedSongs.clear();
+
+
+  document
+    .getElementById(
+      "movePosition"
+    )
+    .value = "";
+
+
+  render();
 
 }
 
@@ -1579,10 +1756,7 @@ function moveSelected(
   }
 
 
-  /*
-    上へ移動するときは
-    上から順番に処理
-  */
+  /* 上へ */
 
   if (
     direction < 0
@@ -1622,10 +1796,7 @@ function moveSelected(
   }
 
 
-  /*
-    下へ移動するときは
-    下から処理
-  */
+  /* 下へ */
 
   if (
     direction > 0
@@ -1680,6 +1851,15 @@ function moveSelected(
 
 function moveToTop() {
 
+  if (
+    selectedSongs.size === 0
+  ) {
+
+    return;
+
+  }
+
+
   const selected =
     songs.filter(
       song =>
@@ -1716,6 +1896,15 @@ function moveToTop() {
 
 function moveToBottom() {
 
+  if (
+    selectedSongs.size === 0
+  ) {
+
+    return;
+
+  }
+
+
   const selected =
     songs.filter(
       song =>
@@ -1747,7 +1936,7 @@ function moveToBottom() {
 
 
 /* =========================
-   指定位置へ
+   指定位置へ移動
 ========================= */
 
 function moveToPosition() {
@@ -1792,7 +1981,10 @@ function moveToPosition() {
   }
 
 
-  /* 選択曲を元の順序で取得 */
+  /*
+    選択した曲を
+    現在のCSV順のまま取得
+  */
 
   const selected =
     songs.filter(
@@ -1802,8 +1994,6 @@ function moveToPosition() {
         )
     );
 
-
-  /* 選択していない曲 */
 
   const others =
     songs.filter(
@@ -1815,8 +2005,10 @@ function moveToPosition() {
 
 
   /*
-    「50番目へ」なら
-    配列の49番目へ挿入
+    例：
+    50番目へ
+       ↓
+    配列上の49番目へ挿入
   */
 
   let insertIndex =
@@ -1898,7 +2090,8 @@ function openAdd() {
     .getElementById(
       "favorite"
     )
-    .checked = false;
+    .checked =
+      false;
 
 
   const genre =
@@ -1950,7 +2143,7 @@ function openEdit(
       "formTitle"
     )
     .textContent =
-      "曲を編集";
+      `曲を編集（${index + 1}番）`;
 
 
   document
@@ -2092,10 +2285,6 @@ function saveSong() {
 
   } else {
 
-    /*
-      選択中の曲を編集した場合は
-      選択状態を新しいオブジェクトへ移す
-    */
 
     const oldSong =
       songs[
@@ -2186,7 +2375,7 @@ function deleteSong(
 
 
 /* =========================
-   モーダル閉じる
+   編集画面を閉じる
 ========================= */
 
 function closeModal() {
@@ -2204,7 +2393,7 @@ function closeModal() {
 
 
 /* =========================
-   CSV用エスケープ
+   CSVエスケープ
 ========================= */
 
 function csvEscape(
@@ -2294,11 +2483,6 @@ function downloadCSV() {
   );
 
 
-  /*
-    BOM付きUTF-8
-    Excel等でも文字化けしにくい
-  */
-
   const blob =
     new Blob(
 
@@ -2341,7 +2525,6 @@ function downloadCSV() {
 
 
   a.click();
-
 
   a.remove();
 
@@ -2404,7 +2587,6 @@ loadCSV();
 
 
 </script>
-
 
 </body>
 </html>
