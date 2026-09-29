@@ -32,16 +32,14 @@ body {
   min-height: 100vh;
 }
 
-
 button,
-input {
+input,
+select {
   font: inherit;
 }
 
-
 button {
-  -webkit-tap-highlight-color:
-    transparent;
+  -webkit-tap-highlight-color: transparent;
 }
 
 
@@ -71,7 +69,6 @@ button {
   margin-bottom: 17px;
 }
 
-
 .header h1 {
   margin: 0;
 
@@ -80,14 +77,11 @@ button {
   font-size: 23px;
   font-weight: 800;
 
-  letter-spacing:
-    0.02em;
+  letter-spacing: 0.02em;
 }
 
-
 #song-count {
-  margin:
-    5px 0 0;
+  margin: 5px 0 0;
 
   color: #b7778e;
 
@@ -103,7 +97,6 @@ button {
   margin-bottom: 12px;
 }
 
-
 #search-input {
   display: block;
 
@@ -112,8 +105,7 @@ button {
 
   margin: 0;
 
-  padding:
-    0 17px;
+  padding: 0 17px;
 
   border:
     1.5px solid
@@ -136,15 +128,12 @@ button {
   font-size: 16px;
 }
 
-
 #search-input::placeholder {
   color: #aaa5a7;
 }
 
-
 #search-input:focus {
-  border-color:
-    #db759a;
+  border-color: #db759a;
 
   box-shadow:
     0 0 0 3px
@@ -181,12 +170,10 @@ button {
     1px 0
     6px;
 
-  -webkit-overflow-scrolling:
-    touch;
+  -webkit-overflow-scrolling: touch;
 
   scrollbar-width: none;
 }
-
 
 .genre-buttons::-webkit-scrollbar {
   display: none;
@@ -200,8 +187,7 @@ button {
 
   min-height: 34px;
 
-  padding:
-    6px 12px;
+  padding: 6px 12px;
 
   border:
     1px solid
@@ -218,13 +204,10 @@ button {
   cursor: pointer;
 }
 
-
 .genre-button.active {
-  border-color:
-    #d87599;
+  border-color: #d87599;
 
-  background:
-    #d87599;
+  background: #d87599;
 
   color: white;
 
@@ -233,29 +216,73 @@ button {
 
 
 /* =========================
-   得意曲フィルター
+   得意曲・並び替え
 ========================= */
 
-.favorite-filter {
-  display:
-    inline-flex;
+.filter-options {
+  display: flex;
 
-  align-items:
-    center;
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 8px;
+}
+
+.favorite-filter {
+  display: inline-flex;
+
+  align-items: center;
 
   gap: 6px;
 
-  min-height: 32px;
+  min-height: 34px;
 
-  padding:
-    5px 11px;
+  padding: 5px 11px;
 
   border:
     1px solid
     #efbfd0;
 
-  border-radius:
-    17px;
+  border-radius: 17px;
+
+  background: white;
+
+  color: #b65879;
+
+  font-size: 12px;
+
+  cursor: pointer;
+
+  white-space: nowrap;
+}
+
+.favorite-filter input {
+  width: 16px;
+  height: 16px;
+
+  margin: 0;
+
+  accent-color: #d87599;
+}
+
+
+/* 並び替え */
+
+.sort-select {
+  height: 34px;
+
+  min-width: 125px;
+
+  padding: 0 10px;
+
+  border:
+    1px solid
+    #efbfd0;
+
+  border-radius: 17px;
+
+  outline: none;
 
   background: white;
 
@@ -266,15 +293,8 @@ button {
   cursor: pointer;
 }
 
-
-.favorite-filter input {
-  width: 16px;
-  height: 16px;
-
-  margin: 0;
-
-  accent-color:
-    #d87599;
+.sort-select:focus {
+  border-color: #d87599;
 }
 
 
@@ -285,8 +305,7 @@ button {
 .song-list {
   display: flex;
 
-  flex-direction:
-    column;
+  flex-direction: column;
 
   gap: 5px;
 }
@@ -299,8 +318,7 @@ button {
 .song-card {
   display: flex;
 
-  align-items:
-    center;
+  align-items: center;
 
   width: 100%;
 
@@ -316,8 +334,7 @@ button {
     1.5px solid
     #efc4d2;
 
-  border-radius:
-    12px;
+  border-radius: 12px;
 
   background:
     rgba(
@@ -347,8 +364,7 @@ button {
 .song-title {
   display: flex;
 
-  align-items:
-    center;
+  align-items: center;
 
   min-width: 0;
 
@@ -365,18 +381,15 @@ button {
 
   overflow: hidden;
 
-  text-overflow:
-    ellipsis;
+  text-overflow: ellipsis;
 }
-
 
 .song-title > span:last-child {
   min-width: 0;
 
   overflow: hidden;
 
-  text-overflow:
-    ellipsis;
+  text-overflow: ellipsis;
 }
 
 
@@ -400,8 +413,7 @@ button {
 .song-meta {
   display: flex;
 
-  align-items:
-    center;
+  align-items: center;
 
   min-width: 0;
 
@@ -417,26 +429,21 @@ button {
 
   overflow: hidden;
 
-  text-overflow:
-    ellipsis;
+  text-overflow: ellipsis;
 }
-
 
 .song-meta span {
   min-width: 0;
 
   overflow: hidden;
 
-  text-overflow:
-    ellipsis;
+  text-overflow: ellipsis;
 }
-
 
 .song-meta .separator {
   flex-shrink: 0;
 
-  margin:
-    0 3px;
+  margin: 0 3px;
 
   color: #c69aaa;
 }
@@ -452,19 +459,15 @@ button {
   min-width: 55px;
   height: 38px;
 
-  padding:
-    0 9px;
+  padding: 0 9px;
 
   border: 0;
 
-  border-radius:
-    10px;
+  border-radius: 10px;
 
-  background:
-    #fde3ec;
+  background: #fde3ec;
 
-  color:
-    #c15e81;
+  color: #c15e81;
 
   font-size: 12px;
   font-weight: 600;
@@ -472,19 +475,14 @@ button {
   cursor: pointer;
 }
 
-
 .copy-button:active {
-  transform:
-    scale(0.96);
+  transform: scale(0.96);
 
-  background:
-    #f7cfdd;
+  background: #f7cfdd;
 }
 
-
 .copy-button.copied {
-  background:
-    #d87599;
+  background: #d87599;
 
   color: white;
 }
@@ -496,17 +494,13 @@ button {
 
 .no-results,
 .load-error {
-  margin:
-    30px 0;
+  margin: 30px 0;
 
-  text-align:
-    center;
+  text-align: center;
 
-  color:
-    #aa7689;
+  color: #aa7689;
 
-  font-size:
-    13px;
+  font-size: 13px;
 }
 
 
@@ -514,9 +508,7 @@ button {
    iPhone
 ========================= */
 
-@media (
-  max-width: 600px
-) {
+@media (max-width: 600px) {
 
   .container {
     padding:
@@ -524,75 +516,69 @@ button {
       45px;
   }
 
-
   .header {
-    margin-bottom:
-      14px;
+    margin-bottom: 14px;
   }
-
 
   .header h1 {
-    font-size:
-      21px;
+    font-size: 21px;
   }
-
 
   #search-input {
-    height:
-      45px;
+    height: 45px;
   }
 
+  .filter-options {
+    gap: 6px;
+  }
 
-  /* 1画面に多く表示 */
+  .favorite-filter {
+    padding: 5px 9px;
+
+    font-size: 11px;
+  }
+
+  .sort-select {
+    min-width: 120px;
+
+    padding: 0 8px;
+
+    font-size: 11px;
+  }
 
   .song-list {
     gap: 4px;
   }
 
-
   .song-card {
-    min-height:
-      54px;
+    min-height: 54px;
 
     padding:
       7px 7px
       7px 10px;
 
-    border-radius:
-      11px;
+    border-radius: 11px;
   }
-
 
   .song-title {
-    font-size:
-      14px;
+    font-size: 14px;
   }
-
 
   .favorite-star {
-    font-size:
-      15px;
+    font-size: 15px;
   }
-
 
   .song-meta {
-    font-size:
-      11px;
+    font-size: 11px;
   }
-
 
   .copy-button {
-    min-width:
-      52px;
+    min-width: 52px;
 
-    height:
-      36px;
+    height: 36px;
 
-    padding:
-      0 7px;
+    padding: 0 7px;
 
-    font-size:
-      11px;
+    font-size: 11px;
   }
-
 }
