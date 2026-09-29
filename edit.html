@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>曲データ編集</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont,
+    "Hiragino Sans", "Yu Gothic", sans-serif;
+  background: linear-gradient(#fff0f5, #fffafd);
+  color: #49383f;
+  min-height: 100vh;
+}
+
+.container {
+  max-width: 700px;
+  margin: auto;
+  padding: 18px 10px 80px;
+}
+
+h1 {
+  text-align: center;
+  color: #d85c89;
+  font-size: 22px;
+  margin: 0 0 5px;
+}
+
+.count {
+  text-align: center;
+  color: #b36b85;
+  font-size: 13px;
+  margin-bottom: 15px;
+}
+
+/* 上部ボタン */
+
+.toolbar {
+  display: flex;
+  gap: 7px;
+  margin-bottom: 12px;
+}
+
+button {
+  border: 0;
+  border-radius: 9px;
+  padding: 9px 12px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.add-button {
+  flex: 1;
+  background: #e8759e;
+  color: white;
+  font-weight: bold;
+}
+
+.download-button {
+  flex: 1;
+  background: #bd557a;
+  color: white;
+  font-weight: bold;
+}
+
+/* 検索 */
+
+#search {
+  width: 100%;
+  height: 43px;
+  border: 1px solid #f2b8cc;
+  border-radius: 22px;
+  padding: 0 15px;
+  margin-bottom: 12px;
+  font-size: 16px;
+  outline: none;
+  background: white;
+}
+
+/* 曲カード */
+
+.song {
+  background: white;
+  border: 1px solid #f4ccd9;
+  border-radius: 10px;
+  padding: 9px 10px;
+  margin-bottom: 5px;
+
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.song-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.song-title {
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 2px;
+}
+
+.song-meta {
+  font-size: 11px;
+  color: #987080;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.favorite {
+  color: #e8759e;
+}
+
+.edit-button {
+  background: #ffe3ed;
+  color: #b94f74;
+  padding: 6px 8px;
+}
+
+.delete-button {
+  background: #f5f5f5;
+  color: #888;
+  padding: 6px 8px;
+}
+
+/* 編集フォーム */
+
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(60, 30, 40, .35);
+  padding: 20px;
+  z-index: 100;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal.show {
+  display: flex;
+}
+
+.form {
+  background: white;
+  width: 100%;
+  max-width: 420px;
+  border-radius: 18px;
+  padding: 20px;
+  box-shadow: 0 10px 40px rgba(100,40,60,.2);
+}
+
+.form h2 {
+  color: #d85c89;
+  margin: 0 0 18px;
+  font-size: 19px;
+}
+
+label {
+  display: block;
+  font-size: 12px;
+  color: #966477;
+  margin: 12px 0 4px;
+}
+
+.form input[type="text"],
+.form select {
+  width: 100%;
+  height: 42px;
+  border: 1px solid #efbfd0;
+  border-radius: 9px;
+  padding: 0 10px;
+  font-size: 16px;
+  background: white;
+}
+
+.favorite-row {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin: 15px 0;
+}
+
+.favorite-row input {
+  width: 19px;
+  height: 19px;
+  accent-color: #e8759e;
+}
+
+.form-buttons {
+  display: flex;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.cancel {
+  flex: 1;
+  background: #eee;
+}
+
+.save {
+  flex: 1;
+  background: #e8759e;
+  color: white;
+  font-weight: bold;
+}
+
+.back {
+  display: block;
+  text-align: center;
+  margin-top: 18px;
+  color: #b85679;
+  text-decoration: none;
+  font-size: 13px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <h1>🎵 曲データ編集</h1>
+
+  <div id="count" class="count"></div>
+
+  <div class="toolbar">
+    <button class="add-button" onclick="openAdd()">
+      ＋ 曲を追加
+    </button>
+
+    <button class="download-button" onclick="downloadCSV()">
+      CSVを保存
+    </button>
+  </div>
+
+  <input
+    id="search"
+    type="search"
+    placeholder="🔍 曲名・アーティストを検索"
+  >
+
+  <div id="songList"></div>
+
+  <a class="back" href="index.html">
+    ← 曲リストに戻る
+  </a>
+
+</div>
+
+
+<!-- 編集画面 -->
+
+<div id="modal" class="modal">
+
+  <div class="form">
+
+    <h2 id="formTitle">曲を編集</h2>
+
+    <label>曲名</label>
+    <input id="title" type="text">
+
+    <label>アーティスト</label>
+    <input id="artist" type="text">
+
+    <label>ジャンル</label>
+
+    <select id="genre">
+      <option value="Uru">Uru</option>
+      <option value="miwa">miwa</option>
+      <option value="ヨルシカ">ヨルシカ</option>
+      <option value="JPOP♀">JPOP♀</option>
+      <option value="JPOP♂">JPOP♂</option>
+      <option value="アニメ">アニメ</option>
+      <option value="ボカロ">ボカロ</option>
+      <option value="その他">その他</option>
+    </select>
+
+    <div class="favorite-row">
+      <input id="favorite" type="checkbox">
+      <span>⭐ 得意曲</span>
+    </div>
+
+    <div class="form-buttons">
+
+      <button
+        class="cancel"
+        onclick="closeModal()">
+        キャンセル
+      </button>
+
+      <button
+        class="save"
+        onclick="saveSong()">
+        保存
+      </button>
+
+    </div>
+
+  </div>
+</div>
+
+
+<script>
+
+let songs = [];
+let editingIndex = null;
+
+
+/* =========================
+   CSV読込
+========================= */
+
+async function loadCSV() {
+
+  try {
+
+    const response = await fetch("songs.csv");
+
+    const text = await response.text();
+
+    songs = parseCSV(text);
+
+    render();
+
+  } catch (error) {
+
+    alert("songs.csvを読み込めませんでした");
+
+  }
+
+}
+
+
+/* CSV解析 */
+
+function parseCSV(text) {
+
+  const lines =
+    text.trim().split(/\r?\n/);
+
+  lines.shift();
+
+  return lines
+    .filter(line => line.trim())
+    .map(line => {
+
+      const c = parseLine(line);
+
+      return {
+        title: c[0] || "",
+        artist: c[1] || "",
+        genre: c[2] || "",
+        favorite:
+          (c[3] || "")
+          .toLowerCase() === "true"
+      };
+
+    });
+
+}
+
+
+function parseLine(line) {
+
+  const result = [];
+
+  let current = "";
+  let quote = false;
+
+  for (let i = 0; i < line.length; i++) {
+
+    const char = line[i];
+
+    if (char === '"') {
+
+      if (
+        quote &&
+        line[i + 1] === '"'
+      ) {
+
+        current += '"';
+        i++;
+
+      } else {
+
+        quote = !quote;
+
+      }
+
+    } else if (
+      char === "," &&
+      !quote
+    ) {
+
+      result.push(current);
+      current = "";
+
+    } else {
+
+      current += char;
+
+    }
+
+  }
+
+  result.push(current);
+
+  return result;
+
+}
+
+
+/* =========================
+   一覧表示
+========================= */
+
+function render() {
+
+  const list =
+    document.getElementById("songList");
+
+  const keyword =
+    document
+      .getElementById("search")
+      .value
+      .toLowerCase();
+
+  list.innerHTML = "";
+
+  let visible = 0;
+
+
+  songs.forEach((song, index) => {
+
+    if (
+      !song.title.toLowerCase().includes(keyword) &&
+      !song.artist.toLowerCase().includes(keyword)
+    ) {
+      return;
+    }
+
+    visible++;
+
+
+    const row =
+      document.createElement("div");
+
+    row.className = "song";
+
+
+    const info =
+      document.createElement("div");
+
+    info.className = "song-info";
+
+
+    const title =
+      document.createElement("div");
+
+    title.className = "song-title";
+
+    title.textContent =
+      (song.favorite ? "⭐ " : "") +
+      song.title;
+
+
+    const meta =
+      document.createElement("div");
+
+    meta.className = "song-meta";
+
+    meta.textContent =
+      song.artist +
+      " ｜ " +
+      song.genre;
+
+
+    info.appendChild(title);
+    info.appendChild(meta);
+
+
+    const edit =
+      document.createElement("button");
+
+    edit.className = "edit-button";
+    edit.textContent = "編集";
+
+    edit.onclick =
+      () => openEdit(index);
+
+
+    const del =
+      document.createElement("button");
+
+    del.className = "delete-button";
+    del.textContent = "削除";
+
+    del.onclick =
+      () => deleteSong(index);
+
+
+    row.appendChild(info);
+    row.appendChild(edit);
+    row.appendChild(del);
+
+    list.appendChild(row);
+
+  });
+
+
+  document.getElementById("count")
+    .textContent =
+      songs.length + "曲登録中";
+
+}
+
+
+/* =========================
+   新規追加
+========================= */
+
+function openAdd() {
+
+  editingIndex = null;
+
+  document.getElementById("formTitle")
+    .textContent = "曲を追加";
+
+  document.getElementById("title").value = "";
+  document.getElementById("artist").value = "";
+
+  document.getElementById("genre").value =
+    "JPOP♂";
+
+  document.getElementById("favorite").checked =
+    false;
+
+  document.getElementById("modal")
+    .classList.add("show");
+
+}
+
+
+/* =========================
+   編集
+========================= */
+
+function openEdit(index) {
+
+  editingIndex = index;
+
+  const song = songs[index];
+
+  document.getElementById("formTitle")
+    .textContent = "曲を編集";
+
+  document.getElementById("title").value =
+    song.title;
+
+  document.getElementById("artist").value =
+    song.artist;
+
+  document.getElementById("genre").value =
+    song.genre;
+
+  document.getElementById("favorite").checked =
+    song.favorite;
+
+  document.getElementById("modal")
+    .classList.add("show");
+
+}
+
+
+/* =========================
+   保存
+========================= */
+
+function saveSong() {
+
+  const title =
+    document.getElementById("title")
+      .value.trim();
+
+  const artist =
+    document.getElementById("artist")
+      .value.trim();
+
+  const genre =
+    document.getElementById("genre")
+      .value;
+
+  const favorite =
+    document.getElementById("favorite")
+      .checked;
+
+
+  if (!title) {
+
+    alert("曲名を入力してください");
+    return;
+
+  }
+
+
+  const song = {
+    title,
+    artist,
+    genre,
+    favorite
+  };
+
+
+  if (editingIndex === null) {
+
+    songs.push(song);
+
+  } else {
+
+    songs[editingIndex] = song;
+
+  }
+
+
+  closeModal();
+
+  render();
+
+}
+
+
+/* =========================
+   削除
+========================= */
+
+function deleteSong(index) {
+
+  const song = songs[index];
+
+  if (
+    confirm(
+      "「" +
+      song.title +
+      "」を削除しますか？"
+    )
+  ) {
+
+    songs.splice(index, 1);
+
+    render();
+
+  }
+
+}
+
+
+/* =========================
+   編集画面を閉じる
+========================= */
+
+function closeModal() {
+
+  document.getElementById("modal")
+    .classList.remove("show");
+
+}
+
+
+/* =========================
+   CSV保存
+========================= */
+
+function csvEscape(value) {
+
+  const text =
+    String(value ?? "");
+
+  if (
+    text.includes(",") ||
+    text.includes('"') ||
+    text.includes("\n")
+  ) {
+
+    return '"' +
+      text.replace(/"/g, '""') +
+      '"';
+
+  }
+
+  return text;
+
+}
+
+
+function downloadCSV() {
+
+  let csv =
+    "title,artist,genre,favorite\r\n";
+
+
+  songs.forEach(song => {
+
+    csv +=
+      csvEscape(song.title) + "," +
+      csvEscape(song.artist) + "," +
+      csvEscape(song.genre) + "," +
+      song.favorite +
+      "\r\n";
+
+  });
+
+
+  /* Excelなどで文字化けしにくいようBOM付きUTF-8 */
+
+  const blob =
+    new Blob(
+      ["\uFEFF" + csv],
+      {
+        type:
+          "text/csv;charset=utf-8"
+      }
+    );
+
+
+  const url =
+    URL.createObjectURL(blob);
+
+  const a =
+    document.createElement("a");
+
+  a.href = url;
+
+  a.download = "songs.csv";
+
+  document.body.appendChild(a);
+
+  a.click();
+
+  a.remove();
+
+  URL.revokeObjectURL(url);
+
+}
+
+
+/* =========================
+   検索
+========================= */
+
+document
+  .getElementById("search")
+  .addEventListener(
+    "input",
+    render
+  );
+
+
+/* 起動 */
+
+loadCSV();
+
+</script>
+
+</body>
+</html>
