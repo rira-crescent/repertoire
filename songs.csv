@@ -1,4 +1,4 @@
-﻿title,artist,genre,favorite
+title,artist,genre,favorite
 プロローグ,Uru,Uru,true
 remember,Uru,Uru,false
 フリージア,Uru,Uru,true
@@ -27,6 +27,15 @@ Love Song,Uru,Uru,false
 花に亡霊,ヨルシカ,ヨルシカ,true
 春泥棒,ヨルシカ,ヨルシカ,true
 晴る,ヨルシカ,ヨルシカ,true
+恋する気持ち,西野カナ,西野カナ,false
+君って,西野カナ,西野カナ,false
+Have a nice day,西野カナ,西野カナ,false
+好き,西野カナ,西野カナ,false
+たとえ どんなに…,西野カナ,西野カナ,false
+涙色,西野カナ,西野カナ,false
+このままで,西野カナ,西野カナ,false
+Dear Bride,西野カナ,西野カナ,false
+if,西野カナ,西野カナ,false
 10月無口な君を忘れる,あたらよ,JPOP-F,false
 CAN YOU CELEBRATE?,安室奈美恵,JPOP-F,false
 みんな空の下,絢香,JPOP-F,false
@@ -56,14 +65,6 @@ secret base ～君がくれたもの～,ZONE,JPOP-F,false
 未来予想図II,DREAMS COME TRUE,JPOP-F,true
 雪の華,中島美嘉,JPOP-F,true
 涙そうそう,夏川りみ,JPOP-F,false
-恋する気持ち,西野カナ,JPOP-F,false
-君って,西野カナ,JPOP-F,false
-Have a nice day,西野カナ,JPOP-F,false
-好き,西野カナ,JPOP-F,false
-たとえ どんなに…,西野カナ,JPOP-F,false
-涙色,西野カナ,JPOP-F,false
-このままで,西野カナ,JPOP-F,false
-Dear Bride,西野カナ,JPOP-F,false
 ツキミソウ,Novelbright,JPOP-M,false
 Soup,藤原さくら,JPOP-F,false
 メリクリ,BoA,JPOP-F,false
@@ -82,7 +83,7 @@ Everything,MISIA,JPOP-F,false
 CHE.R.RY,YUI,JPOP-F,false
 HELLO ～Paradise Kiss～,YUI,JPOP-F,false
 Good-bye days,YUI for 雨音薫,JPOP-F,false
-Song for…,HY,JPOP-M,false
+Song for…,HY,JPOP-F,false
 うれし涙 feat. シェネル & MACO,SPICY CHOCOLATE,JPOP-M,false
 最後の雨,中西保志,JPOP-M,false
 記念日。 feat. miwa,ハジ→,JPOP-M,false
@@ -96,6 +97,5 @@ Song for…,HY,JPOP-M,false
 君の知らない物語,supercell,アニメ,false
 テルーの唄,手嶌葵,アニメ,false
 さよならの夏 ～コクリコ坂から～,手嶌葵,アニメ,true
-if,西野カナ,アニメ,false
 夜明けと蛍,n-buna feat. 初音ミク,ボカロ,false
 今はいいんだよ。,MIMI,ボカロ,false
