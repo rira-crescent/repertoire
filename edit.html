@@ -293,9 +293,15 @@ label {
 
     <label>ジャンル</label>
 
-    <select id="genre">
-    </select>
+<select id="genre"></select>
 
+<label>新しいジャンル</label>
+
+<input
+  id="newGenre"
+  type="text"
+  placeholder="新しいジャンルを入力"
+>
     <div class="favorite-row">
       <input id="favorite" type="checkbox">
       <span>⭐ 得意曲</span>
@@ -621,7 +627,7 @@ function openAdd() {
   document.getElementById("artist").value = "";
 
   document.getElementById("genre").selectedIndex = 0;
-
+document.getElementById("newGenre").value = "";
   document.getElementById("favorite").checked =
     false;
 
@@ -652,7 +658,7 @@ function openEdit(index) {
 
   document.getElementById("genre").value =
     song.genre;
-
+document.getElementById("newGenre").value = "";
   document.getElementById("favorite").checked =
     song.favorite;
 
@@ -676,9 +682,17 @@ function saveSong() {
     document.getElementById("artist")
       .value.trim();
 
-  const genre =
-    document.getElementById("genre")
-      .value;
+  const selectedGenre =
+  document.getElementById("genre")
+    .value;
+
+const newGenre =
+  document.getElementById("newGenre")
+    .value
+    .trim();
+
+const genre =
+  newGenre || selectedGenre;
 
   const favorite =
     document.getElementById("favorite")
@@ -714,8 +728,9 @@ function saveSong() {
 
   closeModal();
 
-  render();
+createGenreOptions();
 
+render();
 }
 
 
