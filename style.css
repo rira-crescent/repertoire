@@ -250,82 +250,43 @@ body {
 /* 曲情報 */
 
 .song-info {
-  display: flex;
-
-  align-items: center;
-
-  gap: 8px;
-
-  min-width: 0;
-
   flex: 1;
+  min-width: 0;
 }
 
 
 /* 曲名 */
 
 .song-title {
-  flex: 1;
-
-  min-width: 0;
-
   margin: 0;
 
   color: #49383f;
 
   font-size: 14px;
-
   font-weight: 700;
 
   line-height: 1.3;
 
-  /* 長い曲名は最大2行 */
-  display: -webkit-box;
-
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-
-  overflow: hidden;
-}
-
-
-/* アーティスト */
-
-.song-artist {
-  width: 145px;
-
-  flex-shrink: 0;
-
-  margin: 0;
-
-  color: #9b6c7d;
-
-  font-size: 12px;
-
   white-space: nowrap;
-
   overflow: hidden;
-
   text-overflow: ellipsis;
 }
 
 
-/* ジャンル */
+/* アーティスト ｜ ジャンル */
 
-.song-genre {
-  flex-shrink: 0;
+.song-meta {
+  margin: 2px 0 0;
 
-  padding: 3px 7px;
+  color: #9b6c7d;
 
-  border-radius: 999px;
+  font-size: 11px;
 
-  background: #fff0f5;
-
-  color: #c25d81;
-
-  font-size: 10px;
+  line-height: 1.2;
 
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 
@@ -416,17 +377,13 @@ body {
     font-size: 13px;
   }
 
-  .song-artist {
-    width: 92px;
+ .song-title {
+  font-size: 14px;
+}
 
-    font-size: 10px;
-  }
-
-  .song-genre {
-    padding: 2px 5px;
-
-    font-size: 9px;
-  }
+.song-meta {
+  font-size: 11px;
+}
 
   .copy-button {
     padding: 5px 6px;
