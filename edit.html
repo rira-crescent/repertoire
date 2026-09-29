@@ -55,6 +55,11 @@ select {
 
 button {
   -webkit-tap-highlight-color: transparent;
+
+  border: 0;
+  border-radius: 9px;
+
+  cursor: pointer;
 }
 
 .container {
@@ -63,10 +68,10 @@ button {
 
   margin: auto;
 
-  /* 下部固定パネルに隠れないよう余白を確保 */
+  /* 固定操作パネル用 */
   padding:
     18px 9px
-    260px;
+    330px;
 }
 
 
@@ -97,7 +102,7 @@ h1 {
 
 
 /* =========================
-   上部ボタン
+   上部
 ========================= */
 
 .toolbar {
@@ -106,14 +111,6 @@ h1 {
   gap: 7px;
 
   margin-bottom: 10px;
-}
-
-button {
-  border: 0;
-
-  border-radius: 9px;
-
-  cursor: pointer;
 }
 
 .add-button,
@@ -167,7 +164,7 @@ button {
 
   box-shadow:
     0 0 0 3px
-    rgba(219, 117, 154, 0.10);
+    rgba(219,117,154,.10);
 }
 
 
@@ -213,22 +210,18 @@ button {
 ========================= */
 
 .select-tools {
-  display: flex;
-
-  gap: 6px;
-
   margin-bottom: 10px;
 }
 
 .select-visible-button {
-  flex: 1;
+  width: 100%;
 
   height: 36px;
 
   border:
     1px solid #efbfd0;
 
-  background: #fff;
+  background: white;
 
   color: #b85679;
 
@@ -238,7 +231,7 @@ button {
 
 
 /* =========================
-   曲
+   曲一覧
 ========================= */
 
 .song {
@@ -252,8 +245,7 @@ button {
 
   margin-bottom: 5px;
 
-  padding:
-    7px;
+  padding: 7px;
 
   border:
     1px solid #f4ccd9;
@@ -340,7 +332,7 @@ button {
 
 
 /* =========================
-   下部固定 選択操作
+   固定操作パネル
 ========================= */
 
 .selection-panel {
@@ -373,7 +365,7 @@ button {
       255,
       245,
       248,
-      0.97
+      .97
     );
 
   box-shadow:
@@ -382,7 +374,7 @@ button {
       100,
       40,
       60,
-      0.18
+      .18
     );
 
   backdrop-filter:
@@ -429,6 +421,11 @@ button {
 
   font-size: 11px;
 }
+
+
+/* =========================
+   移動
+========================= */
 
 .move-buttons {
   display: grid;
@@ -498,7 +495,75 @@ button {
 
 
 /* =========================
-   編集画面
+   ジャンル一括変更
+========================= */
+
+.bulk-genre-area {
+  margin-top: 9px;
+
+  padding-top: 8px;
+
+  border-top:
+    1px solid #f1d1dc;
+}
+
+.bulk-genre-label {
+  margin-bottom: 5px;
+
+  color: #a66a80;
+
+  font-size: 11px;
+}
+
+.bulk-genre-row {
+  display: flex;
+
+  gap: 6px;
+}
+
+#bulkGenre {
+  flex: 1;
+
+  min-width: 0;
+
+  height: 38px;
+
+  padding:
+    0 9px;
+
+  border:
+    1px solid #efbfd0;
+
+  border-radius: 8px;
+
+  outline: none;
+
+  background: white;
+
+  color: #8e5870;
+
+  font-size: 13px;
+}
+
+.bulk-genre-button {
+  min-width: 68px;
+
+  height: 38px;
+
+  padding:
+    0 12px;
+
+  background: #e8759e;
+
+  color: white;
+
+  font-size: 12px;
+  font-weight: bold;
+}
+
+
+/* =========================
+   曲編集モーダル
 ========================= */
 
 .modal {
@@ -571,6 +636,7 @@ button {
 .form input[type="text"],
 .form select {
   width: 100%;
+
   height: 42px;
 
   padding:
@@ -655,7 +721,7 @@ button {
   .container {
     padding:
       16px 8px
-      260px;
+      330px;
   }
 
   .song {
@@ -683,6 +749,7 @@ button {
 
 
 <body>
+
 
 <div class="container">
 
@@ -751,8 +818,6 @@ button {
 </div>
 
 
-<!-- 表示中をまとめて選択 -->
-
 <div class="select-tools">
 
   <button
@@ -764,8 +829,6 @@ button {
 
 </div>
 
-
-<!-- 曲一覧 -->
 
 <div id="songList"></div>
 
@@ -783,7 +846,7 @@ button {
 
 
 <!-- ======================
-     下部固定 移動パネル
+     下部固定パネル
 ====================== -->
 
 <div
@@ -813,19 +876,27 @@ button {
 
   <div class="move-buttons">
 
-    <button onclick="moveSelected(-1)">
+    <button
+      onclick="moveSelected(-1)"
+    >
       ↑ 1つ上
     </button>
 
-    <button onclick="moveSelected(1)">
+    <button
+      onclick="moveSelected(1)"
+    >
       ↓ 1つ下
     </button>
 
-    <button onclick="moveToTop()">
+    <button
+      onclick="moveToTop()"
+    >
       ⇈ 先頭へ
     </button>
 
-    <button onclick="moveToBottom()">
+    <button
+      onclick="moveToBottom()"
+    >
       ⇊ 末尾へ
     </button>
 
@@ -851,12 +922,40 @@ button {
 
   </div>
 
+
+  <!-- ジャンル一括変更 -->
+
+  <div class="bulk-genre-area">
+
+    <div class="bulk-genre-label">
+      選択した曲のジャンルを一括変更
+    </div>
+
+
+    <div class="bulk-genre-row">
+
+      <select
+        id="bulkGenre"
+      ></select>
+
+
+      <button
+        class="bulk-genre-button"
+        onclick="changeSelectedGenre()"
+      >
+        変更
+      </button>
+
+    </div>
+
+  </div>
+
 </div>
 
 
 
 <!-- ======================
-     曲編集
+     曲編集モーダル
 ====================== -->
 
 <div
@@ -933,6 +1032,7 @@ button {
     キャンセル
   </button>
 
+
   <button
     class="save"
     onclick="saveSong()"
@@ -957,8 +1057,7 @@ let editingIndex = null;
 
 
 /*
-  選択中の曲は曲オブジェクト自体で管理する
-  並び替えても選択状態を維持できる
+  選択中の曲を管理
 */
 
 const selectedSongs =
@@ -1180,7 +1279,9 @@ function createGenreOptions() {
     getGenres();
 
 
-  /* 一覧フィルター */
+  /* =====================
+     絞り込み用
+  ===================== */
 
   const filter =
     document.getElementById(
@@ -1232,12 +1333,19 @@ function createGenreOptions() {
   }
 
 
-  /* 編集フォーム */
+
+  /* =====================
+     1曲編集用
+  ===================== */
 
   const editor =
     document.getElementById(
       "genre"
     );
+
+
+  const oldEditor =
+    editor.value;
 
 
   editor.innerHTML = "";
@@ -1266,12 +1374,78 @@ function createGenreOptions() {
     }
   );
 
+
+  if (
+    genres.includes(
+      oldEditor
+    )
+  ) {
+
+    editor.value =
+      oldEditor;
+
+  }
+
+
+
+  /* =====================
+     一括変更用
+  ===================== */
+
+  const bulk =
+    document.getElementById(
+      "bulkGenre"
+    );
+
+
+  const oldBulk =
+    bulk.value;
+
+
+  bulk.innerHTML = "";
+
+
+  genres.forEach(
+    genre => {
+
+      const option =
+        document.createElement(
+          "option"
+        );
+
+
+      option.value =
+        genre;
+
+      option.textContent =
+        genre;
+
+
+      bulk.appendChild(
+        option
+      );
+
+    }
+  );
+
+
+  if (
+    genres.includes(
+      oldBulk
+    )
+  ) {
+
+    bulk.value =
+      oldBulk;
+
+  }
+
 }
 
 
 
 /* =========================
-   現在表示対象か判定
+   表示判定
 ========================= */
 
 function isSongVisible(
@@ -1373,7 +1547,7 @@ function isSongVisible(
 
 
 /* =========================
-   一覧表示
+   曲一覧表示
 ========================= */
 
 function render() {
@@ -1433,9 +1607,7 @@ function render() {
 
 
 
-      /* =====================
-         チェック
-      ===================== */
+      /* チェック */
 
       const checkbox =
         document.createElement(
@@ -1483,9 +1655,7 @@ function render() {
 
 
 
-      /* =====================
-         曲情報
-      ===================== */
+      /* 曲情報 */
 
       const info =
         document.createElement(
@@ -1508,7 +1678,7 @@ function render() {
 
 
       /*
-        index + 1 がCSV上での曲番号
+        CSV上で何番目か表示
       */
 
       title.textContent =
@@ -1553,9 +1723,7 @@ function render() {
 
 
 
-      /* =====================
-         編集
-      ===================== */
+      /* 編集 */
 
       const edit =
         document.createElement(
@@ -1578,9 +1746,7 @@ function render() {
 
 
 
-      /* =====================
-         削除
-      ===================== */
+      /* 削除 */
 
       const del =
         document.createElement(
@@ -1643,7 +1809,7 @@ function render() {
 
 
 /* =========================
-   表示中をすべて選択
+   表示中を全部選択
 ========================= */
 
 function selectVisible() {
@@ -1674,7 +1840,7 @@ function selectVisible() {
 
 
 /* =========================
-   選択キャンセル
+   選択解除
 ========================= */
 
 function clearSelection() {
@@ -1696,7 +1862,7 @@ function clearSelection() {
 
 
 /* =========================
-   選択パネル
+   固定パネル
 ========================= */
 
 function updateSelectionPanel() {
@@ -1740,7 +1906,7 @@ function updateSelectionPanel() {
 
 
 /* =========================
-   選択曲を1つ上・下
+   ↑ ↓ 移動
 ========================= */
 
 function moveSelected(
@@ -1755,8 +1921,6 @@ function moveSelected(
 
   }
 
-
-  /* 上へ */
 
   if (
     direction < 0
@@ -1795,8 +1959,6 @@ function moveSelected(
 
   }
 
-
-  /* 下へ */
 
   if (
     direction > 0
@@ -1936,7 +2098,7 @@ function moveToBottom() {
 
 
 /* =========================
-   指定位置へ移動
+   指定番号へ移動
 ========================= */
 
 function moveToPosition() {
@@ -1981,11 +2143,6 @@ function moveToPosition() {
   }
 
 
-  /*
-    選択した曲を
-    現在のCSV順のまま取得
-  */
-
   const selected =
     songs.filter(
       song =>
@@ -2003,13 +2160,6 @@ function moveToPosition() {
         )
     );
 
-
-  /*
-    例：
-    50番目へ
-       ↓
-    配列上の49番目へ挿入
-  */
 
   let insertIndex =
     position - 1;
@@ -2048,7 +2198,75 @@ function moveToPosition() {
 
 
 /* =========================
-   新規追加
+   ジャンル一括変更
+========================= */
+
+function changeSelectedGenre() {
+
+  if (
+    selectedSongs.size === 0
+  ) {
+
+    return;
+
+  }
+
+
+  const genre =
+    document
+      .getElementById(
+        "bulkGenre"
+      )
+      .value;
+
+
+  if (!genre) {
+
+    return;
+
+  }
+
+
+  const count =
+    selectedSongs.size;
+
+
+  if (
+    !confirm(
+      `${count}曲のジャンルを「${genre}」に変更しますか？`
+    )
+  ) {
+
+    return;
+
+  }
+
+
+  selectedSongs.forEach(
+    song => {
+
+      song.genre =
+        genre;
+
+    }
+  );
+
+
+  /*
+    ジャンル変更後に
+    フィルター等を更新
+  */
+
+  createGenreOptions();
+
+  render();
+
+}
+
+
+
+/* =========================
+   曲追加
 ========================= */
 
 function openAdd() {
@@ -2123,7 +2341,7 @@ function openAdd() {
 
 
 /* =========================
-   編集
+   曲編集
 ========================= */
 
 function openEdit(
@@ -2198,7 +2416,7 @@ function openEdit(
 
 
 /* =========================
-   保存
+   曲保存
 ========================= */
 
 function saveSong() {
@@ -2375,7 +2593,7 @@ function deleteSong(
 
 
 /* =========================
-   編集画面を閉じる
+   モーダルを閉じる
 ========================= */
 
 function closeModal() {
@@ -2393,7 +2611,7 @@ function closeModal() {
 
 
 /* =========================
-   CSVエスケープ
+   CSV
 ========================= */
 
 function csvEscape(
@@ -2433,10 +2651,6 @@ function csvEscape(
 }
 
 
-
-/* =========================
-   CSV保存
-========================= */
 
 function downloadCSV() {
 
