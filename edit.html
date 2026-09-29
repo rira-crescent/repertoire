@@ -222,6 +222,23 @@ label {
   text-decoration: none;
   font-size: 13px;
 }
+  #genreFilter {
+  width: 100%;
+  height: 40px;
+
+  margin-bottom: 12px;
+  padding: 0 12px;
+
+  border: 1px solid #f2b8cc;
+  border-radius: 10px;
+
+  background: white;
+  color: #b85679;
+
+  font-size: 14px;
+
+  outline: none;
+}
 </style>
 </head>
 
@@ -248,7 +265,17 @@ label {
     type="search"
     placeholder="🔍 曲名・アーティストを検索"
   >
-
+<select id="genreFilter">
+  <option value="すべて">すべてのジャンル</option>
+  <option value="Uru">Uru</option>
+  <option value="miwa">miwa</option>
+  <option value="ヨルシカ">ヨルシカ</option>
+  <option value="JPOP♀">JPOP♀</option>
+  <option value="JPOP♂">JPOP♂</option>
+  <option value="アニメ">アニメ</option>
+  <option value="ボカロ">ボカロ</option>
+  <option value="その他">その他</option>
+</select>
   <div id="songList"></div>
 
   <a class="back" href="index.html">
@@ -435,6 +462,9 @@ function render() {
       .value
       .toLowerCase();
 
+  const selectedGenre =
+  document.getElementById("genreFilter").value;
+
   list.innerHTML = "";
 
   let visible = 0;
@@ -442,12 +472,17 @@ function render() {
 
   songs.forEach((song, index) => {
 
-    if (
-      !song.title.toLowerCase().includes(keyword) &&
-      !song.artist.toLowerCase().includes(keyword)
-    ) {
-      return;
-    }
+const matchesSearch =
+  song.title.toLowerCase().includes(keyword) ||
+  song.artist.toLowerCase().includes(keyword);
+
+const matchesGenre =
+  selectedGenre === "すべて" ||
+  song.genre === selectedGenre;
+
+if (!matchesSearch || !matchesGenre) {
+  return;
+}
 
     visible++;
 
@@ -761,6 +796,13 @@ document
   .getElementById("search")
   .addEventListener(
     "input",
+    render
+  );
+
+  document
+  .getElementById("genreFilter")
+  .addEventListener(
+    "change",
     render
   );
 
