@@ -232,23 +232,16 @@ function displaySongs() {
       `${song.favorite ? "⭐ " : ""}${song.title}`;
 
 
-    const artist =
-      document.createElement("p");
+    const meta =
+  document.createElement("p");
 
-    artist.className = "song-artist";
-    artist.textContent = song.artist;
+meta.className = "song-meta";
 
+meta.textContent =
+  `${song.artist} ｜ ${song.genre}`;
 
-    const genre =
-      document.createElement("span");
-
-    genre.className = "song-genre";
-    genre.textContent = song.genre;
-
-
-    info.appendChild(title);
-    info.appendChild(artist);
-    info.appendChild(genre);
+info.appendChild(title);
+info.appendChild(meta);
 
 
     // コピーボタン
