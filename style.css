@@ -9,14 +9,26 @@
 body {
   margin: 0;
   padding: 0;
-  background: #f7f7f9;
-  color: #222;
+
   font-family:
     -apple-system,
     BlinkMacSystemFont,
     "Hiragino Sans",
     "Yu Gothic",
     sans-serif;
+
+  color: #49383f;
+
+  /* 淡いピンク背景 */
+  background:
+    linear-gradient(
+      180deg,
+      #fff0f5 0%,
+      #fff7fa 45%,
+      #fffafd 100%
+    );
+
+  min-height: 100vh;
 }
 
 
@@ -26,9 +38,11 @@ body {
 
 .container {
   width: 100%;
-  max-width: 720px;
+  max-width: 900px;
+
   margin: 0 auto;
-  padding: 24px 16px 60px;
+
+  padding: 18px 12px 50px;
 }
 
 
@@ -38,20 +52,27 @@ body {
 
 .header {
   text-align: center;
-  margin-bottom: 24px;
+
+  margin-bottom: 16px;
 }
 
 .header h1 {
   margin: 0;
-  font-size: 26px;
-  font-weight: 700;
-  letter-spacing: 0.03em;
+
+  color: #d85c89;
+
+  font-size: 24px;
+  font-weight: 800;
+
+  letter-spacing: 0.04em;
 }
 
 #song-count {
-  margin: 8px 0 0;
-  color: #777;
-  font-size: 14px;
+  margin: 5px 0 0;
+
+  color: #b36b85;
+
+  font-size: 13px;
 }
 
 
@@ -60,34 +81,39 @@ body {
 ========================= */
 
 .search-area {
-  margin-bottom: 18px;
+  margin-bottom: 12px;
 }
 
 #search-input {
   width: 100%;
-  height: 50px;
+  height: 44px;
 
-  padding: 0 16px;
+  padding: 0 15px;
 
-  border: 1px solid #ddd;
-  border-radius: 14px;
+  border: 1px solid #f2b8cc;
+  border-radius: 22px;
 
-  background: white;
+  background: rgba(255, 255, 255, 0.92);
+
+  color: #49383f;
 
   font-size: 16px;
 
   outline: none;
 
-  transition:
-    border-color 0.2s,
-    box-shadow 0.2s;
+  box-shadow:
+    0 2px 8px rgba(216, 92, 137, 0.08);
+}
+
+#search-input::placeholder {
+  color: #c99aaa;
 }
 
 #search-input:focus {
-  border-color: #999;
+  border-color: #e77da3;
 
   box-shadow:
-    0 0 0 3px rgba(0, 0, 0, 0.05);
+    0 0 0 3px rgba(231, 125, 163, 0.13);
 }
 
 
@@ -96,49 +122,52 @@ body {
 ========================= */
 
 .filter-area {
-  margin-bottom: 24px;
+  margin-bottom: 14px;
 }
-
-
-/* ジャンルボタン */
 
 .genre-buttons {
   display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
 
-  margin-bottom: 16px;
+  gap: 6px;
+
+  overflow-x: auto;
+
+  padding-bottom: 5px;
+
+  scrollbar-width: none;
+}
+
+.genre-buttons::-webkit-scrollbar {
+  display: none;
 }
 
 .genre-button {
-  border: 1px solid #ddd;
+  flex-shrink: 0;
+
+  border: 1px solid #f1b8cc;
 
   border-radius: 999px;
 
-  padding: 8px 14px;
+  padding: 6px 11px;
 
-  background: white;
+  background: rgba(255, 255, 255, 0.85);
 
-  color: #555;
+  color: #b85679;
 
-  font-size: 14px;
+  font-size: 12px;
 
   cursor: pointer;
-
-  transition: 0.2s;
 }
-
-.genre-button:hover {
-  background: #eee;
-}
-
-
-/* 選択中 */
 
 .genre-button.active {
-  background: #222;
+  background: #e8759e;
+
   color: white;
-  border-color: #222;
+
+  border-color: #e8759e;
+
+  box-shadow:
+    0 2px 6px rgba(216, 92, 137, 0.2);
 }
 
 
@@ -148,39 +177,49 @@ body {
 
 .favorite-filter {
   display: inline-flex;
+
   align-items: center;
-  gap: 7px;
 
-  padding: 9px 13px;
+  gap: 5px;
 
-  background: white;
+  margin-top: 7px;
 
-  border: 1px solid #ddd;
-  border-radius: 10px;
+  padding: 6px 10px;
 
-  font-size: 14px;
+  border: 1px solid #f1bfd0;
+  border-radius: 999px;
+
+  background: rgba(255, 255, 255, 0.85);
+
+  color: #b85679;
+
+  font-size: 12px;
 
   cursor: pointer;
 }
 
 .favorite-filter input {
-  width: 17px;
-  height: 17px;
+  width: 15px;
+  height: 15px;
 
   margin: 0;
 
-  cursor: pointer;
+  accent-color: #e8759e;
 }
 
 
 /* =========================
    曲一覧
+
+   ★ここをコンパクトに変更
 ========================= */
 
 .song-list {
   display: flex;
+
   flex-direction: column;
-  gap: 10px;
+
+  gap: 4px;
 }
 
 
@@ -188,27 +227,37 @@ body {
 
 .song-card {
   display: flex;
+
   align-items: center;
-  justify-content: space-between;
 
-  gap: 14px;
+  gap: 8px;
 
-  padding: 16px;
+  min-height: 45px;
 
-  background: white;
+  padding: 6px 7px 6px 11px;
 
-  border: 1px solid #e7e7e7;
-  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.88);
+
+  border: 1px solid #f5d2de;
+
+  border-radius: 10px;
 
   box-shadow:
-    0 2px 8px rgba(0, 0, 0, 0.035);
+    0 1px 4px rgba(210, 95, 135, 0.06);
 }
 
 
 /* 曲情報 */
 
 .song-info {
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+
   min-width: 0;
+
   flex: 1;
 }
 
@@ -216,42 +265,67 @@ body {
 /* 曲名 */
 
 .song-title {
-  margin: 0 0 5px;
+  flex: 1;
 
-  font-size: 17px;
+  min-width: 0;
+
+  margin: 0;
+
+  color: #49383f;
+
+  font-size: 14px;
+
   font-weight: 700;
 
-  line-height: 1.4;
+  line-height: 1.3;
+
+  /* 長い曲名は最大2行 */
+  display: -webkit-box;
+
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+
+  overflow: hidden;
 }
 
 
 /* アーティスト */
 
 .song-artist {
-  margin: 0 0 8px;
+  width: 145px;
 
-  color: #666;
+  flex-shrink: 0;
 
-  font-size: 14px;
+  margin: 0;
 
-  line-height: 1.4;
+  color: #9b6c7d;
+
+  font-size: 12px;
+
+  white-space: nowrap;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
 }
 
 
 /* ジャンル */
 
 .song-genre {
-  display: inline-block;
+  flex-shrink: 0;
 
-  padding: 3px 8px;
-
-  background: #f0f0f2;
+  padding: 3px 7px;
 
   border-radius: 999px;
 
-  color: #666;
+  background: #fff0f5;
 
-  font-size: 11px;
+  color: #c25d81;
+
+  font-size: 10px;
+
+  white-space: nowrap;
 }
 
 
@@ -262,30 +336,27 @@ body {
 .copy-button {
   flex-shrink: 0;
 
-  min-width: 92px;
+  padding: 6px 8px;
 
-  padding: 9px 11px;
+  border: 0;
 
-  border: 1px solid #ddd;
-  border-radius: 9px;
+  border-radius: 8px;
 
-  background: #fafafa;
+  background: #ffe3ed;
 
-  color: #333;
+  color: #bd557a;
 
-  font-size: 13px;
+  font-size: 11px;
+
+  font-weight: 600;
 
   cursor: pointer;
-
-  transition: 0.15s;
-}
-
-.copy-button:hover {
-  background: #eee;
 }
 
 .copy-button:active {
-  transform: scale(0.96);
+  transform: scale(0.95);
+
+  background: #f9c9da;
 }
 
 
@@ -294,43 +365,73 @@ body {
 ========================= */
 
 .no-results {
-  padding: 40px 0;
+  padding: 35px 0;
 
   text-align: center;
 
-  color: #888;
+  color: #b78295;
 
-  font-size: 14px;
+  font-size: 13px;
 }
 
 
 /* =========================
-   スマホ
+   iPhoneなど狭い画面
 ========================= */
 
-@media (max-width: 500px) {
+@media (max-width: 600px) {
 
   .container {
     padding:
-      20px 12px
-      50px;
+      15px 8px
+      40px;
+  }
+
+  .header {
+    margin-bottom: 12px;
   }
 
   .header h1 {
-    font-size: 22px;
+    font-size: 21px;
   }
 
+
+  /* 曲をさらにコンパクトに */
+
   .song-card {
-    padding: 14px;
+    min-height: 42px;
+
+    gap: 5px;
+
+    padding:
+      5px 5px
+      5px 8px;
+  }
+
+  .song-info {
+    gap: 5px;
   }
 
   .song-title {
-    font-size: 16px;
+    font-size: 13px;
+  }
+
+  .song-artist {
+    width: 92px;
+
+    font-size: 10px;
+  }
+
+  .song-genre {
+    padding: 2px 5px;
+
+    font-size: 9px;
   }
 
   .copy-button {
-    min-width: auto;
-    padding: 9px 10px;
+    padding: 5px 6px;
+
+    font-size: 10px;
   }
 
 }
