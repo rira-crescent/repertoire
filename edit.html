@@ -294,14 +294,6 @@ label {
     <label>ジャンル</label>
 
     <select id="genre">
-      <option value="Uru">Uru</option>
-      <option value="miwa">miwa</option>
-      <option value="ヨルシカ">ヨルシカ</option>
-      <option value="JPOP♀">JPOP♀</option>
-      <option value="JPOP♂">JPOP♂</option>
-      <option value="アニメ">アニメ</option>
-      <option value="ボカロ">ボカロ</option>
-      <option value="その他">その他</option>
     </select>
 
     <div class="favorite-row">
@@ -392,10 +384,8 @@ function parseCSV(text) {
 
   function createGenreOptions() {
 
-  const filter =
-    document.getElementById("genreFilter");
-
-  // CSVにあるジャンルを重複なしで取得
+  // CSVに存在するジャンルを
+  // 重複なしで取得
   const genres = [
     ...new Set(
       songs
@@ -404,11 +394,18 @@ function parseCSV(text) {
     )
   ];
 
-  // 一旦「すべて」だけに戻す
+
+  /* =========================
+     一覧のジャンル絞り込み
+  ========================= */
+
+  const filter =
+    document.getElementById("genreFilter");
+
   filter.innerHTML =
     '<option value="すべて">すべてのジャンル</option>';
 
-  // CSVからジャンルを追加
+
   genres.forEach(genre => {
 
     const option =
@@ -418,6 +415,29 @@ function parseCSV(text) {
     option.textContent = genre;
 
     filter.appendChild(option);
+
+  });
+
+
+  /* =========================
+     曲追加・編集画面
+  ========================= */
+
+  const editor =
+    document.getElementById("genre");
+
+  editor.innerHTML = "";
+
+
+  genres.forEach(genre => {
+
+    const option =
+      document.createElement("option");
+
+    option.value = genre;
+    option.textContent = genre;
+
+    editor.appendChild(option);
 
   });
 
@@ -600,8 +620,7 @@ function openAdd() {
   document.getElementById("title").value = "";
   document.getElementById("artist").value = "";
 
-  document.getElementById("genre").value =
-    "JPOP♂";
+  document.getElementById("genre").selectedIndex = 0;
 
   document.getElementById("favorite").checked =
     false;
