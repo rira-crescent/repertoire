@@ -4,12 +4,10 @@
 <head>
   <meta charset="UTF-8">
 
-  <!-- iPhoneなどスマホで正しい大きさに表示するため -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>rira♡☾ repertoire</title>
 
-  <!-- デザイン用CSS -->
   <link rel="stylesheet" href="style.css">
 </head>
 
@@ -17,14 +15,11 @@
 
   <main class="container">
 
-    <!-- タイトル -->
     <header class="header">
       <h1>rira♡☾ repertoire</h1>
       <p id="song-count">歌える曲 0曲</p>
     </header>
 
-
-    <!-- 検索 -->
     <section class="search-area">
 
       <input
@@ -36,49 +31,47 @@
 
     </section>
 
-
-    <!-- ジャンル -->
     <section class="filter-area">
 
       <div
         id="genre-buttons"
         class="genre-buttons"
-      >
-        <!--
-          songs.jsに登録したジャンルから
-          script.jsが自動的にボタンを作ります
-        -->
-      </div>
+      ></div>
 
+      <div class="filter-options">
 
-      <!-- 得意曲だけ表示 -->
-      <label class="favorite-filter">
+        <label class="favorite-filter">
 
-        <input
-          type="checkbox"
-          id="favorite-only"
+          <input
+            type="checkbox"
+            id="favorite-only"
+          >
+
+          ⭐ 得意曲だけ
+
+        </label>
+
+        <select
+          id="sort-select"
+          class="sort-select"
+          aria-label="並び替え"
         >
+          <option value="default">登録順</option>
+          <option value="title">曲名順</option>
+          <option value="artist">アーティスト順</option>
+          <option value="genre">ジャンル順</option>
+          <option value="favorite">⭐ 得意曲優先</option>
+        </select>
 
-        ⭐ 得意曲だけ
-
-      </label>
+      </div>
 
     </section>
 
-
-    <!-- 曲一覧 -->
     <section
       id="song-list"
       class="song-list"
-    >
-      <!--
-        ここにscript.jsが
-        曲を自動表示します
-      -->
-    </section>
+    ></section>
 
-
-    <!-- 検索結果が0件だった場合 -->
     <p
       id="no-results"
       class="no-results"
@@ -88,12 +81,6 @@
     </p>
 
   </main>
-
-
-  <!--
-    順番が重要
-    ①script.jsでそのデータを表示する
-  -->
 
   <script src="script.js"></script>
 
