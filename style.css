@@ -1,14 +1,17 @@
 /* =========================
-   基本設定
+   全体
 ========================= */
 
 * {
   box-sizing: border-box;
 }
 
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
 body {
   margin: 0;
-  padding: 0;
 
   font-family:
     -apple-system,
@@ -19,60 +22,76 @@ body {
 
   color: #49383f;
 
-  /* 淡いピンク背景 */
   background:
     linear-gradient(
       180deg,
-      #fff0f5 0%,
-      #fff7fa 45%,
-      #fffafd 100%
+      #fff2f7 0%,
+      #fff8fa 100%
     );
 
   min-height: 100vh;
 }
 
 
-/* =========================
-   全体
-========================= */
+button,
+input {
+  font: inherit;
+}
 
-.container {
-  width: 100%;
-  max-width: 900px;
 
-  margin: 0 auto;
-
-  padding: 18px 12px 50px;
+button {
+  -webkit-tap-highlight-color:
+    transparent;
 }
 
 
 /* =========================
-   ヘッダー
+   コンテナ
+========================= */
+
+.container {
+  width: 100%;
+  max-width: 700px;
+
+  margin: 0 auto;
+
+  padding:
+    20px 10px
+    50px;
+}
+
+
+/* =========================
+   タイトル
 ========================= */
 
 .header {
   text-align: center;
 
-  margin-bottom: 16px;
+  margin-bottom: 17px;
 }
+
 
 .header h1 {
   margin: 0;
 
-  color: #d85c89;
+  color: #d45e89;
 
-  font-size: 24px;
+  font-size: 23px;
   font-weight: 800;
 
-  letter-spacing: 0.04em;
+  letter-spacing:
+    0.02em;
 }
 
+
 #song-count {
-  margin: 5px 0 0;
+  margin:
+    5px 0 0;
 
-  color: #b36b85;
+  color: #b7778e;
 
-  font-size: 13px;
+  font-size: 14px;
 }
 
 
@@ -84,209 +103,342 @@ body {
   margin-bottom: 12px;
 }
 
+
 #search-input {
+  display: block;
+
   width: 100%;
-  height: 44px;
+  height: 48px;
 
-  padding: 0 15px;
+  margin: 0;
 
-  border: 1px solid #f2b8cc;
-  border-radius: 22px;
+  padding:
+    0 17px;
 
-  background: rgba(255, 255, 255, 0.92);
+  border:
+    1.5px solid
+    #efb8cb;
+
+  border-radius: 25px;
+
+  outline: none;
+
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      0.96
+    );
 
   color: #49383f;
 
   font-size: 16px;
-
-  outline: none;
-
-  box-shadow:
-    0 2px 8px rgba(216, 92, 137, 0.08);
 }
+
 
 #search-input::placeholder {
-  color: #c99aaa;
+  color: #aaa5a7;
 }
 
+
 #search-input:focus {
-  border-color: #e77da3;
+  border-color:
+    #db759a;
 
   box-shadow:
-    0 0 0 3px rgba(231, 125, 163, 0.13);
+    0 0 0 3px
+    rgba(
+      219,
+      117,
+      154,
+      0.10
+    );
 }
 
 
 /* =========================
-   絞り込み
+   フィルター
 ========================= */
 
 .filter-area {
-  margin-bottom: 14px;
+  margin-bottom: 12px;
 }
+
+
+/* ジャンル横スクロール */
 
 .genre-buttons {
   display: flex;
 
   gap: 6px;
 
+  width: 100%;
+
   overflow-x: auto;
 
-  padding-bottom: 5px;
+  padding:
+    1px 0
+    6px;
+
+  -webkit-overflow-scrolling:
+    touch;
 
   scrollbar-width: none;
 }
+
 
 .genre-buttons::-webkit-scrollbar {
   display: none;
 }
 
+
+/* ジャンル */
+
 .genre-button {
   flex-shrink: 0;
 
-  border: 1px solid #f1b8cc;
+  min-height: 34px;
 
-  border-radius: 999px;
+  padding:
+    6px 12px;
 
-  padding: 6px 11px;
+  border:
+    1px solid
+    #efbfd0;
 
-  background: rgba(255, 255, 255, 0.85);
+  border-radius: 18px;
 
-  color: #b85679;
+  background: white;
+
+  color: #b65879;
 
   font-size: 12px;
 
   cursor: pointer;
 }
 
+
 .genre-button.active {
-  background: #e8759e;
+  border-color:
+    #d87599;
+
+  background:
+    #d87599;
 
   color: white;
 
-  border-color: #e8759e;
-
-  box-shadow:
-    0 2px 6px rgba(216, 92, 137, 0.2);
+  font-weight: 600;
 }
 
 
 /* =========================
-   得意曲
+   得意曲フィルター
 ========================= */
 
 .favorite-filter {
-  display: inline-flex;
+  display:
+    inline-flex;
 
-  align-items: center;
+  align-items:
+    center;
 
-  gap: 5px;
+  gap: 6px;
 
-  margin-top: 7px;
+  min-height: 32px;
 
-  padding: 6px 10px;
+  padding:
+    5px 11px;
 
-  border: 1px solid #f1bfd0;
-  border-radius: 999px;
+  border:
+    1px solid
+    #efbfd0;
 
-  background: rgba(255, 255, 255, 0.85);
+  border-radius:
+    17px;
 
-  color: #b85679;
+  background: white;
+
+  color: #b65879;
 
   font-size: 12px;
 
   cursor: pointer;
 }
 
+
 .favorite-filter input {
-  width: 15px;
-  height: 15px;
+  width: 16px;
+  height: 16px;
 
   margin: 0;
 
-  accent-color: #e8759e;
+  accent-color:
+    #d87599;
 }
 
 
 /* =========================
    曲一覧
-
-   ★ここをコンパクトに変更
 ========================= */
 
 .song-list {
   display: flex;
 
-  flex-direction: column;
+  flex-direction:
+    column;
 
-  gap: 4px;
+  gap: 5px;
 }
 
 
-/* 1曲 */
+/* =========================
+   1曲カード
+========================= */
 
 .song-card {
   display: flex;
 
-  align-items: center;
+  align-items:
+    center;
+
+  width: 100%;
+
+  min-height: 58px;
 
   gap: 8px;
 
-  min-height: 45px;
+  padding:
+    8px 9px
+    8px 12px;
 
-  padding: 6px 7px 6px 11px;
+  border:
+    1.5px solid
+    #efc4d2;
 
-  background: rgba(255, 255, 255, 0.88);
+  border-radius:
+    12px;
 
-  border: 1px solid #f5d2de;
-
-  border-radius: 10px;
-
-  box-shadow:
-    0 1px 4px rgba(210, 95, 135, 0.06);
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      0.96
+    );
 }
 
 
-/* 曲情報 */
+/* =========================
+   左側 曲情報
+========================= */
 
 .song-info {
   flex: 1;
+
   min-width: 0;
+
+  overflow: hidden;
 }
 
 
 /* 曲名 */
 
 .song-title {
+  display: flex;
+
+  align-items:
+    center;
+
+  min-width: 0;
+
   margin: 0;
 
-  color: #49383f;
+  color: #46383d;
 
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 700;
+
+  line-height: 1.35;
+
+  white-space: nowrap;
+
+  overflow: hidden;
+
+  text-overflow:
+    ellipsis;
+}
+
+
+.song-title > span:last-child {
+  min-width: 0;
+
+  overflow: hidden;
+
+  text-overflow:
+    ellipsis;
+}
+
+
+/* ⭐ */
+
+.favorite-star {
+  flex-shrink: 0;
+
+  margin-right: 4px;
+
+  font-size: 16px;
+
+  line-height: 1;
+}
+
+
+/* =========================
+   アーティスト ｜ ジャンル
+========================= */
+
+.song-meta {
+  display: flex;
+
+  align-items:
+    center;
+
+  min-width: 0;
+
+  margin-top: 2px;
+
+  color: #a17083;
+
+  font-size: 11px;
 
   line-height: 1.3;
 
   white-space: nowrap;
+
   overflow: hidden;
-  text-overflow: ellipsis;
+
+  text-overflow:
+    ellipsis;
 }
 
 
-/* アーティスト ｜ ジャンル */
+.song-meta span {
+  min-width: 0;
 
-.song-meta {
-  margin: 2px 0 0;
-
-  color: #9b6c7d;
-
-  font-size: 11px;
-
-  line-height: 1.2;
-
-  white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis;
+
+  text-overflow:
+    ellipsis;
+}
+
+
+.song-meta .separator {
+  flex-shrink: 0;
+
+  margin:
+    0 3px;
+
+  color: #c69aaa;
 }
 
 
@@ -297,98 +449,150 @@ body {
 .copy-button {
   flex-shrink: 0;
 
-  padding: 6px 8px;
+  min-width: 55px;
+  height: 38px;
+
+  padding:
+    0 9px;
 
   border: 0;
 
-  border-radius: 8px;
+  border-radius:
+    10px;
 
-  background: #ffe3ed;
+  background:
+    #fde3ec;
 
-  color: #bd557a;
+  color:
+    #c15e81;
 
-  font-size: 11px;
-
+  font-size: 12px;
   font-weight: 600;
 
   cursor: pointer;
 }
 
+
 .copy-button:active {
-  transform: scale(0.95);
+  transform:
+    scale(0.96);
 
-  background: #f9c9da;
+  background:
+    #f7cfdd;
+}
+
+
+.copy-button.copied {
+  background:
+    #d87599;
+
+  color: white;
 }
 
 
 /* =========================
-   検索結果なし
+   0件
 ========================= */
 
-.no-results {
-  padding: 35px 0;
+.no-results,
+.load-error {
+  margin:
+    30px 0;
 
-  text-align: center;
+  text-align:
+    center;
 
-  color: #b78295;
+  color:
+    #aa7689;
 
-  font-size: 13px;
+  font-size:
+    13px;
 }
 
 
 /* =========================
-   iPhoneなど狭い画面
+   iPhone
 ========================= */
 
-@media (max-width: 600px) {
+@media (
+  max-width: 600px
+) {
 
   .container {
     padding:
-      15px 8px
-      40px;
+      17px 8px
+      45px;
   }
+
 
   .header {
-    margin-bottom: 12px;
+    margin-bottom:
+      14px;
   }
+
 
   .header h1 {
-    font-size: 21px;
+    font-size:
+      21px;
   }
 
 
-  /* 曲をさらにコンパクトに */
+  #search-input {
+    height:
+      45px;
+  }
+
+
+  /* 1画面に多く表示 */
+
+  .song-list {
+    gap: 4px;
+  }
+
 
   .song-card {
-    min-height: 42px;
-
-    gap: 5px;
+    min-height:
+      54px;
 
     padding:
-      5px 5px
-      5px 8px;
+      7px 7px
+      7px 10px;
+
+    border-radius:
+      11px;
   }
 
-  .song-info {
-    gap: 5px;
-  }
 
   .song-title {
-    font-size: 13px;
+    font-size:
+      14px;
   }
 
- .song-title {
-  font-size: 14px;
-}
 
-.song-meta {
-  font-size: 11px;
-}
+  .favorite-star {
+    font-size:
+      15px;
+  }
+
+
+  .song-meta {
+    font-size:
+      11px;
+  }
+
 
   .copy-button {
-    padding: 5px 6px;
+    min-width:
+      52px;
 
-    font-size: 10px;
+    height:
+      36px;
+
+    padding:
+      0 7px;
+
+    font-size:
+      11px;
   }
 
 }
