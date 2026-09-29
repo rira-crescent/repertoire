@@ -42,13 +42,11 @@ async function loadSongs() {
 
 function parseCSV(text) {
 
-  // BOMを削除
   text = text.replace(/^\uFEFF/, "");
 
   const lines =
     text.trim().split(/\r?\n/);
 
-  // 1行目の見出しを削除
   lines.shift();
 
   return lines
@@ -92,7 +90,6 @@ function parseCSVLine(line) {
   let current = "";
   let insideQuotes = false;
 
-
   for (
     let i = 0;
     i < line.length;
@@ -100,7 +97,6 @@ function parseCSVLine(line) {
   ) {
 
     const char = line[i];
-
 
     if (char === '"') {
 
@@ -120,7 +116,6 @@ function parseCSVLine(line) {
 
       }
 
-
     } else if (
       char === "," &&
       !insideQuotes
@@ -130,7 +125,6 @@ function parseCSVLine(line) {
 
       current = "";
 
-
     } else {
 
       current += char;
@@ -138,7 +132,6 @@ function parseCSVLine(line) {
     }
 
   }
-
 
   result.push(current);
 
@@ -148,21 +141,12 @@ function parseCSVLine(line) {
 
 
 /* =========================
-   ジャンルボタン
+   ジャンル取得
 ========================= */
 
-function createGenreButtons() {
+function getGenres() {
 
-  const container =
-    document.getElementById(
-      "genre-buttons"
-    );
-
-
-  // CSVからジャンル取得
-  const genres = [
-
-    "すべて",
+  return [
 
     ...new Set(
 
@@ -178,9 +162,29 @@ function createGenreButtons() {
 
   ];
 
+}
+
+
+/* =========================
+   ジャンルボタン
+========================= */
+
+function createGenreButtons() {
+
+  const container =
+    document.getElementById(
+      "genre-buttons"
+    );
+
+  const genres = [
+
+    "すべて",
+
+    ...getGenres()
+
+  ];
 
   container.innerHTML = "";
-
 
   genres.forEach(genre => {
 
@@ -189,7 +193,6 @@ function createGenreButtons() {
         "button"
       );
 
-
     button.type = "button";
 
     button.className =
@@ -197,7 +200,6 @@ function createGenreButtons() {
 
     button.textContent =
       genre;
-
 
     if (
       genre === selectedGenre
@@ -209,14 +211,12 @@ function createGenreButtons() {
 
     }
 
-
     button.addEventListener(
       "click",
       () => {
 
         selectedGenre =
           genre;
-
 
         document
           .querySelectorAll(
@@ -230,17 +230,14 @@ function createGenreButtons() {
 
           });
 
-
         button.classList.add(
           "active"
         );
-
 
         displaySongs();
 
       }
     );
-
 
     container.appendChild(
       button
@@ -262,7 +259,6 @@ function displaySongs() {
       "song-list"
     );
 
-
   const search =
     document
       .getElementById(
@@ -272,7 +268,6 @@ function displaySongs() {
       .trim()
       .toLowerCase();
 
-
   const favoriteOnly =
     document
       .getElementById(
@@ -280,12 +275,20 @@ function displaySongs() {
       )
       .checked;
 
+  const sortType =
+    document
+      .getElementById(
+        "sort-select"
+      )
+      .value;
 
-  const filteredSongs =
+
+  /* =====================
+     検索・絞り込み
+  ===================== */
+
+  let filteredSongs =
     songs.filter(song => {
-
-
-      /* 検索 */
 
       const matchesSearch =
 
@@ -300,8 +303,6 @@ function displaySongs() {
           .includes(search);
 
 
-      /* ジャンル */
-
       const matchesGenre =
 
         selectedGenre ===
@@ -312,8 +313,6 @@ function displaySongs() {
         song.genre ===
           selectedGenre;
 
-
-      /* 得意曲 */
 
       const matchesFavorite =
 
@@ -341,10 +340,146 @@ function displaySongs() {
     });
 
 
+  /* =====================
+     並び替え
+  ===================== */
+
+
+  /* 登録順 */
+
+  if (sortType === "default") {
+
+    // songs.csvの順番をそのまま使用
+
+  }
+
+
+  /* 曲名順 */
+
+  else if (
+    sortType === "title"
+  ) {
+
+    filteredSongs.sort(
+      (a, b) =>
+
+        a.title.localeCompare(
+          b.title,
+          "ja",
+          {
+            numeric: true,
+            sensitivity: "base"
+          }
+        )
+
+    );
+
+  }
+
+
+  /* アーティスト順 */
+
+  else if (
+    sortType === "artist"
+  ) {
+
+    filteredSongs.sort(
+      (a, b) => {
+
+        const result =
+          a.artist.localeCompare(
+            b.artist,
+            "ja",
+            {
+              numeric: true,
+              sensitivity: "base"
+            }
+          );
+
+        if (result !== 0) {
+          return result;
+        }
+
+        return (
+          a.title.localeCompare(
+            b.title,
+            "ja",
+            {
+              numeric: true,
+              sensitivity: "base"
+            }
+          )
+        );
+
+      }
+    );
+
+  }
+
+
+  /* ジャンル順 */
+
+  else if (
+    sortType === "genre"
+  ) {
+
+    /*
+      songs.csvにジャンルが
+      最初に登場する順番
+    */
+
+    const genreOrder =
+      getGenres();
+
+
+    filteredSongs.sort(
+      (a, b) =>
+
+        genreOrder.indexOf(
+          a.genre
+        )
+
+        -
+
+        genreOrder.indexOf(
+          b.genre
+        )
+
+    );
+
+  }
+
+
+  /* 得意曲優先 */
+
+  else if (
+    sortType === "favorite"
+  ) {
+
+    filteredSongs.sort(
+      (a, b) =>
+
+        Number(
+          b.favorite
+        )
+
+        -
+
+        Number(
+          a.favorite
+        )
+
+    );
+
+  }
+
+
+  /* =====================
+     表示
+  ===================== */
+
   list.innerHTML = "";
 
-
-  /* 曲数 */
 
   document
     .getElementById(
@@ -353,8 +488,6 @@ function displaySongs() {
     .textContent =
       `${filteredSongs.length}曲`;
 
-
-  /* 0件 */
 
   const noResults =
     document.getElementById(
@@ -385,8 +518,6 @@ function displaySongs() {
   filteredSongs.forEach(song => {
 
 
-    /* カード */
-
     const card =
       document.createElement(
         "article"
@@ -395,8 +526,6 @@ function displaySongs() {
     card.className =
       "song-card";
 
-
-    /* 曲情報 */
 
     const info =
       document.createElement(
@@ -583,8 +712,6 @@ function displaySongs() {
           );
 
 
-          /* 古いブラウザ用 */
-
           const textarea =
             document.createElement(
               "textarea"
@@ -665,6 +792,20 @@ document
 document
   .getElementById(
     "favorite-only"
+  )
+  .addEventListener(
+    "change",
+    displaySongs
+  );
+
+
+/* =========================
+   並び替え
+========================= */
+
+document
+  .getElementById(
+    "sort-select"
   )
   .addEventListener(
     "change",
