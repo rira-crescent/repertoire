@@ -3,11 +3,7 @@
 
 <head>
 <meta charset="UTF-8">
-
-<meta
-  name="viewport"
-  content="width=device-width, initial-scale=1.0"
->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>曲データ編集</title>
 
@@ -54,12 +50,12 @@ select {
 }
 
 button {
-  -webkit-tap-highlight-color: transparent;
-
   border: 0;
   border-radius: 9px;
 
   cursor: pointer;
+
+  -webkit-tap-highlight-color: transparent;
 }
 
 .container {
@@ -68,10 +64,10 @@ button {
 
   margin: auto;
 
-  /* 固定操作パネル用 */
+  /* 下部固定パネル用 */
   padding:
     18px 9px
-    330px;
+    380px;
 }
 
 
@@ -102,7 +98,7 @@ h1 {
 
 
 /* =========================
-   上部
+   上部ボタン
 ========================= */
 
 .toolbar {
@@ -206,7 +202,7 @@ h1 {
 
 
 /* =========================
-   表示中を選択
+   表示中をすべて選択
 ========================= */
 
 .select-tools {
@@ -332,7 +328,7 @@ h1 {
 
 
 /* =========================
-   固定操作パネル
+   下部固定パネル
 ========================= */
 
 .selection-panel {
@@ -387,6 +383,11 @@ h1 {
 .selection-panel.show {
   display: block;
 }
+
+
+/* =========================
+   選択状態
+========================= */
 
 .selection-header {
   display: flex;
@@ -510,22 +511,23 @@ h1 {
 .bulk-genre-label {
   margin-bottom: 5px;
 
-  color: #a66a80;
+  color: #9f6078;
 
-  font-size: 11px;
+  font-size: 12px;
+  font-weight: bold;
 }
 
-.bulk-genre-row {
-  display: flex;
+.bulk-field-label {
+  margin:
+    6px 0 3px;
 
-  gap: 6px;
+  color: #aa7a8b;
+
+  font-size: 10px;
 }
 
 #bulkGenre {
-  flex: 1;
-
-  min-width: 0;
-
+  width: 100%;
   height: 38px;
 
   padding:
@@ -545,8 +547,44 @@ h1 {
   font-size: 13px;
 }
 
+.bulk-genre-row {
+  display: flex;
+
+  gap: 6px;
+}
+
+#bulkNewGenre {
+  flex: 1;
+
+  min-width: 0;
+
+  height: 38px;
+
+  padding:
+    0 9px;
+
+  border:
+    1px solid #efbfd0;
+
+  border-radius: 8px;
+
+  outline: none;
+
+  background: white;
+
+  color: #49383f;
+
+  font-size: 16px;
+}
+
+#bulkNewGenre::placeholder {
+  color: #b8adb1;
+
+  font-size: 12px;
+}
+
 .bulk-genre-button {
-  min-width: 68px;
+  min-width: 72px;
 
   height: 38px;
 
@@ -563,7 +601,7 @@ h1 {
 
 
 /* =========================
-   曲編集モーダル
+   編集モーダル
 ========================= */
 
 .modal {
@@ -721,7 +759,7 @@ h1 {
   .container {
     padding:
       16px 8px
-      330px;
+      380px;
   }
 
   .song {
@@ -752,7 +790,6 @@ h1 {
 
 
 <div class="container">
-
 
 <h1>🎵 曲データ編集</h1>
 
@@ -840,7 +877,6 @@ h1 {
   ← 曲リストに戻る
 </a>
 
-
 </div>
 
 
@@ -876,27 +912,19 @@ h1 {
 
   <div class="move-buttons">
 
-    <button
-      onclick="moveSelected(-1)"
-    >
+    <button onclick="moveSelected(-1)">
       ↑ 1つ上
     </button>
 
-    <button
-      onclick="moveSelected(1)"
-    >
+    <button onclick="moveSelected(1)">
       ↓ 1つ下
     </button>
 
-    <button
-      onclick="moveToTop()"
-    >
+    <button onclick="moveToTop()">
       ⇈ 先頭へ
     </button>
 
-    <button
-      onclick="moveToBottom()"
-    >
+    <button onclick="moveToBottom()">
       ⇊ 末尾へ
     </button>
 
@@ -923,7 +951,9 @@ h1 {
   </div>
 
 
-  <!-- ジャンル一括変更 -->
+  <!-- ======================
+       ジャンル一括変更
+  ====================== -->
 
   <div class="bulk-genre-area">
 
@@ -932,11 +962,26 @@ h1 {
     </div>
 
 
+    <div class="bulk-field-label">
+      既存ジャンル
+    </div>
+
+
+    <select id="bulkGenre"></select>
+
+
+    <div class="bulk-field-label">
+      または新しいジャンル
+    </div>
+
+
     <div class="bulk-genre-row">
 
-      <select
-        id="bulkGenre"
-      ></select>
+      <input
+        id="bulkNewGenre"
+        type="text"
+        placeholder="新しいジャンルを入力"
+      >
 
 
       <button
@@ -1042,7 +1087,6 @@ h1 {
 
 </div>
 
-
 </div>
 </div>
 
@@ -1057,7 +1101,8 @@ let editingIndex = null;
 
 
 /*
-  選択中の曲を管理
+  選択中の曲を
+  オブジェクトで管理
 */
 
 const selectedSongs =
@@ -1066,7 +1111,7 @@ const selectedSongs =
 
 
 /* =========================
-   CSV読込
+   CSV読み込み
 ========================= */
 
 async function loadCSV() {
@@ -1074,7 +1119,9 @@ async function loadCSV() {
   try {
 
     const response =
-      await fetch("songs.csv");
+      await fetch(
+        "songs.csv"
+      );
 
 
     if (!response.ok) {
@@ -1098,7 +1145,9 @@ async function loadCSV() {
 
 
     songs =
-      parseCSV(text);
+      parseCSV(
+        text
+      );
 
 
     createGenreOptions();
@@ -1108,7 +1157,10 @@ async function loadCSV() {
 
   } catch (error) {
 
-    console.error(error);
+    console.error(
+      error
+    );
+
 
     alert(
       "songs.csvを読み込めませんでした"
@@ -1142,34 +1194,41 @@ function parseCSV(text) {
         line.trim()
     )
 
-    .map(line => {
+    .map(
+      line => {
 
-      const c =
-        parseLine(line);
+        const c =
+          parseLine(
+            line
+          );
 
 
-      return {
+        return {
 
-        title:
-          c[0]?.trim() || "",
+          title:
+            c[0]?.trim()
+            || "",
 
-        artist:
-          c[1]?.trim() || "",
+          artist:
+            c[1]?.trim()
+            || "",
 
-        genre:
-          c[2]?.trim() || "その他",
+          genre:
+            c[2]?.trim()
+            || "その他",
 
-        favorite:
-          (
-            c[3] || ""
-          )
-            .trim()
-            .toLowerCase()
-            === "true"
+          favorite:
+            (
+              c[3] || ""
+            )
+              .trim()
+              .toLowerCase()
+              === "true"
 
-      };
+        };
 
-    });
+      }
+    );
 
 }
 
@@ -1199,7 +1258,8 @@ function parseLine(line) {
     ) {
 
       if (
-        quote &&
+        quote
+        &&
         line[i + 1] === '"'
       ) {
 
@@ -1209,13 +1269,16 @@ function parseLine(line) {
 
       } else {
 
-        quote = !quote;
+        quote =
+          !quote;
 
       }
 
+    }
 
-    } else if (
-      char === "," &&
+    else if (
+      char === ","
+      &&
       !quote
     ) {
 
@@ -1225,10 +1288,12 @@ function parseLine(line) {
 
       current = "";
 
+    }
 
-    } else {
+    else {
 
-      current += char;
+      current +=
+        char;
 
     }
 
@@ -1247,7 +1312,7 @@ function parseLine(line) {
 
 
 /* =========================
-   ジャンル
+   ジャンル取得
 ========================= */
 
 function getGenres() {
@@ -1263,7 +1328,9 @@ function getGenres() {
             song.genre
         )
 
-        .filter(Boolean)
+        .filter(
+          Boolean
+        )
 
     )
 
@@ -1273,15 +1340,19 @@ function getGenres() {
 
 
 
+/* =========================
+   ジャンル選択肢生成
+========================= */
+
 function createGenreOptions() {
 
   const genres =
     getGenres();
 
 
-  /* =====================
-     絞り込み用
-  ===================== */
+  /* ---------------------
+     絞り込み
+  --------------------- */
 
   const filter =
     document.getElementById(
@@ -1334,9 +1405,9 @@ function createGenreOptions() {
 
 
 
-  /* =====================
-     1曲編集用
-  ===================== */
+  /* ---------------------
+     1曲編集
+  --------------------- */
 
   const editor =
     document.getElementById(
@@ -1388,9 +1459,9 @@ function createGenreOptions() {
 
 
 
-  /* =====================
-     一括変更用
-  ===================== */
+  /* ---------------------
+     一括変更
+  --------------------- */
 
   const bulk =
     document.getElementById(
@@ -1448,9 +1519,7 @@ function createGenreOptions() {
    表示判定
 ========================= */
 
-function isSongVisible(
-  song
-) {
+function isSongVisible(song) {
 
   const keyword =
     document
@@ -1516,9 +1585,7 @@ function isSongVisible(
     (
       favoriteFilter ===
         "favorite"
-
       &&
-
       song.favorite
     )
 
@@ -1527,9 +1594,7 @@ function isSongVisible(
     (
       favoriteFilter ===
         "normal"
-
       &&
-
       !song.favorite
     );
 
@@ -1547,7 +1612,7 @@ function isSongVisible(
 
 
 /* =========================
-   曲一覧表示
+   一覧表示
 ========================= */
 
 function render() {
@@ -1558,7 +1623,8 @@ function render() {
     );
 
 
-  list.innerHTML = "";
+  list.innerHTML =
+    "";
 
 
   let visible =
@@ -1607,7 +1673,9 @@ function render() {
 
 
 
-      /* チェック */
+      /* ------------------
+         チェック
+      ------------------ */
 
       const checkbox =
         document.createElement(
@@ -1655,7 +1723,9 @@ function render() {
 
 
 
-      /* 曲情報 */
+      /* ------------------
+         曲情報
+      ------------------ */
 
       const info =
         document.createElement(
@@ -1678,7 +1748,7 @@ function render() {
 
 
       /*
-        CSV上で何番目か表示
+        CSV上の番号
       */
 
       title.textContent =
@@ -1723,7 +1793,9 @@ function render() {
 
 
 
-      /* 編集 */
+      /* ------------------
+         編集
+      ------------------ */
 
       const edit =
         document.createElement(
@@ -1746,7 +1818,9 @@ function render() {
 
 
 
-      /* 削除 */
+      /* ------------------
+         削除
+      ------------------ */
 
       const del =
         document.createElement(
@@ -1855,6 +1929,13 @@ function clearSelection() {
     .value = "";
 
 
+  document
+    .getElementById(
+      "bulkNewGenre"
+    )
+    .value = "";
+
+
   render();
 
 }
@@ -1862,7 +1943,7 @@ function clearSelection() {
 
 
 /* =========================
-   固定パネル
+   選択パネル
 ========================= */
 
 function updateSelectionPanel() {
@@ -1906,7 +1987,7 @@ function updateSelectionPanel() {
 
 
 /* =========================
-   ↑ ↓ 移動
+   1つ上・下
 ========================= */
 
 function moveSelected(
@@ -2212,7 +2293,11 @@ function changeSelectedGenre() {
   }
 
 
-  const genre =
+  /*
+    既存ジャンル
+  */
+
+  const selectedGenre =
     document
       .getElementById(
         "bulkGenre"
@@ -2220,7 +2305,34 @@ function changeSelectedGenre() {
       .value;
 
 
+  /*
+    新しいジャンル
+  */
+
+  const newGenre =
+    document
+      .getElementById(
+        "bulkNewGenre"
+      )
+      .value
+      .trim();
+
+
+  /*
+    新規入力を優先
+  */
+
+  const genre =
+    newGenre
+    ||
+    selectedGenre;
+
+
   if (!genre) {
+
+    alert(
+      "ジャンルを選択または入力してください"
+    );
 
     return;
 
@@ -2253,11 +2365,49 @@ function changeSelectedGenre() {
 
 
   /*
-    ジャンル変更後に
-    フィルター等を更新
+    新ジャンル入力欄を空に
+  */
+
+  document
+    .getElementById(
+      "bulkNewGenre"
+    )
+    .value = "";
+
+
+  /*
+    新しいジャンルを
+    選択肢にも反映
   */
 
   createGenreOptions();
+
+
+  /*
+    今回設定したジャンルを
+    一括変更欄で選択状態にする
+  */
+
+  const bulk =
+    document.getElementById(
+      "bulkGenre"
+    );
+
+
+  if (
+    [...bulk.options]
+      .some(
+        option =>
+          option.value ===
+          genre
+      )
+  ) {
+
+    bulk.value =
+      genre;
+
+  }
+
 
   render();
 
@@ -2456,6 +2606,10 @@ function saveSong() {
       .trim();
 
 
+  /*
+    新ジャンルを優先
+  */
+
   const genre =
     newGenre
     ||
@@ -2611,12 +2765,10 @@ function closeModal() {
 
 
 /* =========================
-   CSV
+   CSV用エスケープ
 ========================= */
 
-function csvEscape(
-  value
-) {
+function csvEscape(value) {
 
   const text =
     String(
@@ -2651,6 +2803,10 @@ function csvEscape(
 }
 
 
+
+/* =========================
+   CSV保存
+========================= */
 
 function downloadCSV() {
 
