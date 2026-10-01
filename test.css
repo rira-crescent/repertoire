@@ -586,7 +586,7 @@ button {
 
   .header-icon {
     left: calc(100% + 8px);
-    top: calc(70% + 8px);
+    top: calc(70% + 12px);
 
     width: 44px;
     height: 44px;
