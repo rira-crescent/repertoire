@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>rira♡☾ repertoire</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <main class="container">
+
+    <header class="header">
+      <h1>rira♡☾ repertoire</h1>
+      <p id="song-count">歌える曲 0曲</p>
+    </header>
+
+    <section class="search-area">
+
+      <input
+        type="search"
+        id="search-input"
+        placeholder="曲名・アーティストを検索"
+        autocomplete="off"
+      >
+
+    </section>
+
+    <section class="filter-area">
+
+      <div
+        id="genre-buttons"
+        class="genre-buttons"
+      ></div>
+
+      <div class="filter-options">
+
+        <label class="favorite-filter">
+
+          <input
+            type="checkbox"
+            id="favorite-only"
+          >
+
+          ⭐ 得意曲だけ
+
+        </label>
+
+        <select
+          id="sort-select"
+          class="sort-select"
+          aria-label="並び替え"
+        >
+          <option value="default">登録順</option>
+          <option value="title">曲名順</option>
+          <option value="artist">アーティスト順</option>
+          <option value="genre">ジャンル順</option>
+          <option value="favorite">⭐ 得意曲優先</option>
+        </select>
+
+      </div>
+
+    </section>
+
+    <section
+      id="song-list"
+      class="song-list"
+    ></section>
+
+    <p
+      id="no-results"
+      class="no-results"
+      hidden
+    >
+      該当する曲がありません
+    </p>
+
+  </main>
+
+  <script src="script.js?v=2"></script>
+
+</body>
+
+</html>
