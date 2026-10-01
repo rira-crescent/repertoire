@@ -9,18 +9,12 @@
     content="width=device-width, initial-scale=1.0"
   >
 
-  <title>rira♡☾ repertoire</title>
+  <title>rira♡☾ repertoire TEST</title>
 
-  <!-- 本番と同じCSS -->
+  <!-- テスト専用CSSだけを読み込む -->
   <link
     rel="stylesheet"
-    href="style.css?v=1"
-  >
-
-  <!-- test.html専用CSS -->
-  <link
-    rel="stylesheet"
-    href="test.css?v=7"
+    href="test.css?v=9"
   >
 
 </head>
@@ -37,37 +31,23 @@
 
     <header class="header">
 
-      <div class="title-center">
+      <div class="header-title">
 
+        <h1>
+          rira♡☾ repertoire
+        </h1>
 
-        <!-- タイトル -->
-
-        <div class="title-line">
-
-          <h1>
-            rira♡☾ repertoire
-          </h1>
-
-
-          <!-- アイコン -->
-
-          <img
-            src="icon.png"
-            class="profile-icon"
-            alt="rira"
-          >
-
-        </div>
-
-
-        <!-- 曲数 -->
-
-        <p id="song-count">
-          0曲
-        </p>
-
+        <img
+          src="icon.png"
+          class="header-icon"
+          alt="rira"
+        >
 
       </div>
+
+      <p id="song-count">
+        0曲
+      </p>
 
     </header>
 
@@ -96,20 +76,13 @@
 
     <section class="filter-area">
 
-
-      <!-- ジャンル -->
-
       <div
         id="genre-buttons"
         class="genre-buttons"
       ></div>
 
 
-
-      <!-- 得意曲・並び替え -->
-
       <div class="filter-options">
-
 
         <label class="favorite-filter">
 
@@ -121,7 +94,6 @@
           ⭐ 得意曲だけ
 
         </label>
-
 
 
         <select
@@ -152,7 +124,6 @@
 
         </select>
 
-
       </div>
 
     </section>
@@ -169,11 +140,6 @@
     ></section>
 
 
-
-    <!-- =========================
-         検索結果なし
-    ========================== -->
-
     <p
       id="no-results"
       class="no-results"
@@ -186,8 +152,7 @@
   </main>
 
 
-  <!-- 本番と同じJavaScript -->
-
+  <!-- 機能は本番と共通 -->
   <script src="script.js?v=3"></script>
 
 
