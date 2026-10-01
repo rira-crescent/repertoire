@@ -14,13 +14,13 @@
   <!-- 本番と同じCSS -->
   <link
     rel="stylesheet"
-    href="style.css"
+    href="style.css?v=1"
   >
 
   <!-- test.html専用CSS -->
   <link
     rel="stylesheet"
-    href="test.css?v=6"
+    href="test.css?v=7"
   >
 
 </head>
@@ -37,31 +37,34 @@
 
     <header class="header">
 
-      <div class="profile-title">
+      <div class="title-center">
 
 
-        <!-- タイトル＋曲数 -->
+        <!-- タイトル -->
 
-        <div class="profile-text">
+        <div class="title-line">
 
           <h1>
             rira♡☾ repertoire
           </h1>
 
-          <p id="song-count">
-            0曲
-          </p>
+
+          <!-- アイコン -->
+
+          <img
+            src="icon.png"
+            class="profile-icon"
+            alt="rira"
+          >
 
         </div>
 
 
-        <!-- 右側アイコン -->
+        <!-- 曲数 -->
 
-        <img
-          src="icon.png"
-          class="profile-icon"
-          alt="rira"
-        >
+        <p id="song-count">
+          0曲
+        </p>
 
 
       </div>
@@ -183,10 +186,9 @@
   </main>
 
 
-
   <!-- 本番と同じJavaScript -->
 
-  <script src="script.js?v=2"></script>
+  <script src="script.js?v=3"></script>
 
 
 </body>
