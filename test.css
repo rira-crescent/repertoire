@@ -1,1 +1,524 @@
+/* ========================================
+   rira♡☾ repertoire
+   kawaii test design
+======================================== */
 
+
+/* 背景 */
+
+body {
+  position: relative;
+  overflow-x: hidden;
+
+  color: #51445f;
+
+  background:
+    radial-gradient(
+      circle at 15% 10%,
+      rgba(255, 255, 255, 0.95),
+      transparent 25%
+    ),
+    radial-gradient(
+      circle at 90% 15%,
+      rgba(224, 207, 255, 0.65),
+      transparent 30%
+    ),
+    linear-gradient(
+      160deg,
+      #fff2f8 0%,
+      #fdebf5 45%,
+      #f5edff 100%
+    );
+
+  min-height: 100vh;
+}
+
+
+/* 背景のきらきら */
+
+body::before {
+  content: "✦  ·  ✧  ·  ✦  ·  ☾  ·  ✧";
+
+  position: fixed;
+  top: 12px;
+  left: 0;
+
+  width: 100%;
+
+  text-align: center;
+
+  color: rgba(207, 132, 190, 0.25);
+
+  font-size: 18px;
+  letter-spacing: 18px;
+
+  pointer-events: none;
+}
+
+
+/* ========================================
+   全体
+======================================== */
+
+.container {
+  max-width: 720px;
+
+  padding-top: 30px;
+}
+
+
+/* ========================================
+   ヘッダー
+======================================== */
+
+.header {
+  position: relative;
+
+  margin-bottom: 22px;
+
+  padding:
+    22px 15px
+    17px;
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.85);
+
+  border-radius: 28px;
+
+  background:
+    rgba(255, 255, 255, 0.48);
+
+  box-shadow:
+    0 10px 30px
+    rgba(194, 113, 158, 0.10);
+
+  backdrop-filter:
+    blur(10px);
+}
+
+
+/* 月 */
+
+.header::before {
+  content: "☾";
+
+  position: absolute;
+
+  left: 18px;
+  top: 11px;
+
+  color: #df9fc4;
+
+  font-size: 35px;
+
+  transform:
+    rotate(-15deg);
+}
+
+
+/* 星 */
+
+.header::after {
+  content: "✦";
+
+  position: absolute;
+
+  right: 22px;
+  top: 17px;
+
+  color: #d8b4ef;
+
+  font-size: 19px;
+}
+
+
+/* タイトル */
+
+.header h1 {
+  color: #cf6fa0;
+
+  font-family:
+    "Georgia",
+    "Times New Roman",
+    serif;
+
+  font-size: 28px;
+  font-weight: 600;
+
+  letter-spacing:
+    0.03em;
+
+  text-shadow:
+    0 2px 10px
+    rgba(218, 123, 166, 0.15);
+}
+
+
+/* 曲数 */
+
+#song-count {
+  margin-top: 7px;
+
+  color: #aa82a0;
+
+  font-size: 12px;
+}
+
+
+/* ========================================
+   検索
+======================================== */
+
+#search-input {
+  height: 50px;
+
+  padding:
+    0 20px;
+
+  border:
+    1px solid
+    rgba(225, 157, 190, 0.65);
+
+  border-radius: 25px;
+
+  background:
+    rgba(255, 255, 255, 0.78);
+
+  box-shadow:
+    0 7px 18px
+    rgba(186, 104, 150, 0.08);
+
+  backdrop-filter:
+    blur(8px);
+}
+
+
+#search-input:focus {
+  border-color:
+    #d980ab;
+
+  box-shadow:
+    0 0 0 4px
+    rgba(217, 128, 171, 0.10);
+}
+
+
+/* ========================================
+   ジャンル
+======================================== */
+
+.genre-buttons {
+  gap: 7px;
+
+  padding-bottom: 8px;
+}
+
+
+.genre-button {
+  min-height: 35px;
+
+  padding:
+    6px 14px;
+
+  border:
+    1px solid
+    rgba(227, 172, 200, 0.75);
+
+  border-radius: 20px;
+
+  background:
+    rgba(255, 255, 255, 0.72);
+
+  color: #ad668c;
+
+  box-shadow:
+    0 4px 10px
+    rgba(186, 104, 150, 0.05);
+
+  backdrop-filter:
+    blur(6px);
+}
+
+
+.genre-button.active {
+  border-color:
+    #ef83ae;
+
+  background:
+    linear-gradient(
+      135deg,
+      #f68eb6,
+      #e982b0
+    );
+
+  color: white;
+
+  box-shadow:
+    0 5px 14px
+    rgba(221, 103, 154, 0.22);
+}
+
+
+/* ========================================
+   得意曲・並び替え
+======================================== */
+
+.favorite-filter,
+.sort-select {
+  border:
+    1px solid
+    rgba(227, 172, 200, 0.75);
+
+  background:
+    rgba(255, 255, 255, 0.76);
+
+  color:
+    #a95f86;
+
+  box-shadow:
+    0 4px 10px
+    rgba(186, 104, 150, 0.05);
+}
+
+
+/* ========================================
+   曲一覧
+======================================== */
+
+.song-list {
+  gap: 8px;
+}
+
+
+/* ========================================
+   曲カード
+======================================== */
+
+.song-card {
+  position: relative;
+
+  min-height: 62px;
+
+  padding:
+    9px 10px
+    9px 14px;
+
+  border:
+    1px solid
+    rgba(239, 191, 211, 0.72);
+
+  border-radius: 17px;
+
+  background:
+    rgba(255, 255, 255, 0.78);
+
+  box-shadow:
+    0 6px 18px
+    rgba(177, 101, 145, 0.07);
+
+  backdrop-filter:
+    blur(9px);
+
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+
+/* タップ */
+
+.song-card:active {
+  transform:
+    scale(0.985);
+}
+
+
+/* 小さな飾り */
+
+.song-card::before {
+  content: "✧";
+
+  position: absolute;
+
+  top: 6px;
+  right: 74px;
+
+  color:
+    rgba(216, 155, 193, 0.35);
+
+  font-size: 11px;
+}
+
+
+/* ========================================
+   曲名
+======================================== */
+
+.song-title {
+  color:
+    #4d405b;
+
+  font-size:
+    15px;
+
+  font-weight:
+    700;
+}
+
+
+/* ⭐ */
+
+.favorite-star {
+  filter:
+    drop-shadow(
+      0 2px 3px
+      rgba(237, 180, 56, 0.25)
+    );
+}
+
+
+/* ========================================
+   アーティスト・ジャンル
+======================================== */
+
+.song-meta {
+  margin-top:
+    3px;
+
+  color:
+    #a17699;
+}
+
+
+/* ========================================
+   コピーボタン
+======================================== */
+
+.copy-button {
+  min-width:
+    58px;
+
+  height:
+    38px;
+
+  border:
+    1px solid
+    #f3bad0;
+
+  border-radius:
+    19px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #fff4f8,
+      #fde3ee
+    );
+
+  color:
+    #cf608c;
+
+  box-shadow:
+    0 4px 10px
+    rgba(204, 91, 137, 0.10);
+}
+
+
+.copy-button:active {
+  transform:
+    scale(0.94);
+
+  background:
+    #f9d4e3;
+}
+
+
+.copy-button.copied {
+  border-color:
+    #db83a7;
+
+  background:
+    linear-gradient(
+      135deg,
+      #e990b3,
+      #d978a0
+    );
+
+  color:
+    white;
+}
+
+
+/* ========================================
+   スマホ
+======================================== */
+
+@media (max-width: 600px) {
+
+  .container {
+    padding:
+      23px 8px
+      45px;
+  }
+
+
+  .header {
+    padding:
+      18px 10px
+      14px;
+
+    border-radius:
+      23px;
+  }
+
+
+  .header h1 {
+    font-size:
+      24px;
+  }
+
+
+  .header::before {
+    left:
+      12px;
+
+    font-size:
+      29px;
+  }
+
+
+  .header::after {
+    right:
+      15px;
+  }
+
+
+  .song-card {
+    min-height:
+      57px;
+
+    padding:
+      8px 8px
+      8px 11px;
+
+    border-radius:
+      15px;
+  }
+
+
+  .song-list {
+    gap:
+      6px;
+  }
+
+
+  .copy-button {
+    min-width:
+      54px;
+
+    height:
+      36px;
+  }
+
+}
