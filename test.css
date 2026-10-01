@@ -1,62 +1,41 @@
 /* ========================================
    test.html 専用CSS
-
-   タイトルをページ中央に固定
-   アイコンはタイトル位置に影響させない
 ======================================== */
 
 
-/* =========================
-   ヘッダー中央
-========================= */
+/* タイトル全体 */
 
 .title-center {
   width: 100%;
-
   text-align: center;
 }
 
 
-/* =========================
-   タイトル行
-========================= */
+/* タイトル */
 
 .title-line {
   position: relative;
-
   display: inline-block;
 }
 
-
-/* =========================
-   タイトル
-========================= */
-
 .title-line h1 {
   margin: 0;
-
   text-align: center;
 }
 
 
-/* =========================
-   アイコン
-
-   absoluteにすることで
-   タイトルの中央位置に影響しない
-========================= */
+/* 右側アイコン */
 
 .profile-icon {
   position: absolute;
 
-  left: calc(100% + 10px);
+  left: calc(100% + 8px);
 
-  top: 50%;
+  /* タイトル上端を基準に配置 */
+  top: -10px;
 
-  transform: translateY(-50%);
-
-  width: 50px;
-  height: 50px;
+  width: 46px;
+  height: 46px;
 
   object-fit: cover;
 
@@ -70,15 +49,9 @@
 }
 
 
-/* =========================
-   曲数
-
-   タイトルと同じ中央
-========================= */
+/* 曲数 */
 
 .title-center #song-count {
-  display: block;
-
   width: 100%;
 
   margin: 5px 0 0;
@@ -87,9 +60,7 @@
 }
 
 
-/* =========================
-   iPhone
-========================= */
+/* iPhone */
 
 @media (max-width: 600px) {
 
@@ -97,9 +68,10 @@
     font-size: 20px;
   }
 
-
   .profile-icon {
     left: calc(100% + 8px);
+
+    top: -10px;
 
     width: 46px;
     height: 46px;
