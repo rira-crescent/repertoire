@@ -4,25 +4,43 @@
 <head>
   <meta charset="UTF-8">
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
   <title>rira♡☾ repertoire</title>
 
-  <!-- 本番のデザイン -->
-  <link rel="stylesheet" href="style.css">
+  <!-- 本番と同じデザイン -->
+  <link
+    rel="stylesheet"
+    href="style.css"
+  >
 
-  <!-- test.html専用の追加デザイン -->
-  <link rel="stylesheet" href="test.css?v=3">
+  <!-- test.html専用 -->
+  <link
+    rel="stylesheet"
+    href="test.css?v=4"
+  >
 </head>
+
 
 <body>
 
   <main class="container">
 
-    <!-- タイトル -->
+
+    <!-- =========================
+         タイトル
+    ========================== -->
+
     <header class="header">
 
       <div class="profile-title">
+
+        <h1>
+          rira♡☾ repertoire
+        </h1>
 
         <img
           src="icon.png"
@@ -30,22 +48,23 @@
           alt="rira"
         >
 
-        <div class="profile-text">
-
-          <h1>rira♡☾ repertoire</h1>
-
-          <p id="song-count">
-            歌える曲 0曲
-          </p>
-
-        </div>
-
       </div>
+
+
+      <!-- 曲数は独立して中央 -->
+
+      <p id="song-count">
+        0曲
+      </p>
 
     </header>
 
 
-    <!-- 検索 -->
+
+    <!-- =========================
+         検索
+    ========================== -->
+
     <section class="search-area">
 
       <input
@@ -58,19 +77,28 @@
     </section>
 
 
-    <!-- フィルター -->
+
+    <!-- =========================
+         フィルター
+    ========================== -->
+
     <section class="filter-area">
 
+
       <!-- ジャンル -->
+
       <div
         id="genre-buttons"
         class="genre-buttons"
       ></div>
 
 
+
+      <!-- 得意曲・並び替え -->
+
       <div class="filter-options">
 
-        <!-- 得意曲だけ -->
+
         <label class="favorite-filter">
 
           <input
@@ -83,7 +111,7 @@
         </label>
 
 
-        <!-- 並び替え -->
+
         <select
           id="sort-select"
           class="sort-select"
@@ -112,19 +140,28 @@
 
         </select>
 
+
       </div>
 
     </section>
 
 
-    <!-- 曲一覧 -->
+
+    <!-- =========================
+         曲一覧
+    ========================== -->
+
     <section
       id="song-list"
       class="song-list"
     ></section>
 
 
-    <!-- 0件 -->
+
+    <!-- =========================
+         検索結果0件
+    ========================== -->
+
     <p
       id="no-results"
       class="no-results"
@@ -133,11 +170,15 @@
       該当する曲がありません
     </p>
 
+
   </main>
 
 
+
   <!-- 本番と同じJavaScript -->
+
   <script src="script.js?v=2"></script>
+
 
 </body>
 
