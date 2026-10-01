@@ -1,13 +1,13 @@
 /* ========================================
-   test.html 専用
+   test.html 専用CSS
 
    本番のstyle.cssをベースに
-   プロフィールアイコンだけ追加
+   タイトル右側へアイコンを追加
 ======================================== */
 
 
 /* =========================
-   アイコン＋タイトル
+   タイトル＋アイコン
 ========================= */
 
 .profile-title {
@@ -17,26 +17,35 @@
 
   justify-content: center;
 
-  gap: 12px;
+  gap: 10px;
 }
 
 
 /* =========================
-   プロフィールアイコン
+   タイトル
+========================= */
+
+.profile-title h1 {
+  margin: 0;
+}
+
+
+/* =========================
+   アイコン
 ========================= */
 
 .profile-icon {
   flex-shrink: 0;
 
-  width: 58px;
-  height: 58px;
+  width: 54px;
+  height: 54px;
 
   object-fit: cover;
 
   border-radius: 50%;
 
   border:
-    3px solid
+    2px solid
     #ffffff;
 
   box-shadow:
@@ -51,28 +60,21 @@
 
 
 /* =========================
-   タイトル部分
+   曲数
+
+   タイトル＋アイコンとは
+   別にしてページ中央へ
 ========================= */
 
-.profile-text {
-  min-width: 0;
+#song-count {
+  display: block;
 
-  text-align: left;
-}
+  width: 100%;
 
-
-.profile-text h1 {
-  margin: 0;
-
-  text-align: left;
-}
-
-
-.profile-text #song-count {
   margin:
     5px 0 0;
 
-  text-align: left;
+  text-align: center;
 }
 
 
@@ -83,19 +85,17 @@
 @media (max-width: 600px) {
 
   .profile-title {
-    gap: 10px;
+    gap: 9px;
   }
 
 
   .profile-icon {
-    width: 54px;
-    height: 54px;
-
-    border-width: 2px;
+    width: 50px;
+    height: 50px;
   }
 
 
-  .profile-text h1 {
+  .profile-title h1 {
     font-size: 20px;
   }
 
