@@ -11,17 +11,18 @@
 
   <title>rira♡☾ repertoire</title>
 
-  <!-- 本番と同じデザイン -->
+  <!-- 本番と同じCSS -->
   <link
     rel="stylesheet"
     href="style.css"
   >
 
-  <!-- test.html専用 -->
+  <!-- test.html専用CSS -->
   <link
     rel="stylesheet"
-    href="test.css?v=4"
+    href="test.css?v=5"
   >
+
 </head>
 
 
@@ -31,16 +32,30 @@
 
 
     <!-- =========================
-         タイトル
+         ヘッダー
     ========================== -->
 
     <header class="header">
 
       <div class="profile-title">
 
-        <h1>
-          rira♡☾ repertoire
-        </h1>
+
+        <!-- タイトル＋曲数 -->
+
+        <div class="profile-text">
+
+          <h1>
+            rira♡☾ repertoire
+          </h1>
+
+          <p id="song-count">
+            0曲
+          </p>
+
+        </div>
+
+
+        <!-- アイコン -->
 
         <img
           src="icon.png"
@@ -48,14 +63,8 @@
           alt="rira"
         >
 
+
       </div>
-
-
-      <!-- 曲数は独立して中央 -->
-
-      <p id="song-count">
-        0曲
-      </p>
 
     </header>
 
@@ -99,6 +108,8 @@
       <div class="filter-options">
 
 
+        <!-- 得意曲だけ -->
+
         <label class="favorite-filter">
 
           <input
@@ -111,6 +122,8 @@
         </label>
 
 
+
+        <!-- 並び替え -->
 
         <select
           id="sort-select"
@@ -159,7 +172,7 @@
 
 
     <!-- =========================
-         検索結果0件
+         検索結果なし
     ========================== -->
 
     <p
