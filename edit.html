@@ -64,7 +64,6 @@ button {
 
   margin: auto;
 
-  /* 下部固定パネル用 */
   padding:
     18px 9px
     380px;
@@ -104,25 +103,33 @@ h1 {
 .toolbar {
   display: flex;
 
-  gap: 7px;
+  gap: 6px;
 
   margin-bottom: 10px;
 }
 
 .add-button,
+.load-button,
 .download-button {
   flex: 1;
 
+  min-width: 0;
   height: 40px;
+
+  padding: 0 5px;
 
   color: white;
 
-  font-size: 13px;
+  font-size: 12px;
   font-weight: bold;
 }
 
 .add-button {
   background: #e8759e;
+}
+
+.load-button {
+  background: #d88aaa;
 }
 
 .download-button {
@@ -809,6 +816,13 @@ h1 {
   </button>
 
   <button
+    class="load-button"
+    onclick="openCSVFile()"
+  >
+    📂 CSVを読込
+  </button>
+
+  <button
     class="download-button"
     onclick="downloadCSV()"
   >
@@ -816,6 +830,14 @@ h1 {
   </button>
 
 </div>
+
+
+<input
+  id="csvFileInput"
+  type="file"
+  accept=".csv,text/csv"
+  hidden
+>
 
 
 <input
@@ -950,10 +972,6 @@ h1 {
 
   </div>
 
-
-  <!-- ======================
-       ジャンル一括変更
-  ====================== -->
 
   <div class="bulk-genre-area">
 
@@ -1111,7 +1129,7 @@ const selectedSongs =
 
 
 /* =========================
-   CSV読み込み
+   GitHub上のCSV読み込み
 ========================= */
 
 async function loadCSV() {
@@ -1173,6 +1191,192 @@ async function loadCSV() {
 
 
 /* =========================
+   ローカルCSVを選択
+========================= */
+
+function openCSVFile() {
+
+  document
+    .getElementById(
+      "csvFileInput"
+    )
+    .click();
+
+}
+
+
+
+/* =========================
+   ローカルCSV読み込み
+========================= */
+
+document
+  .getElementById(
+    "csvFileInput"
+  )
+  .addEventListener(
+    "change",
+    async function () {
+
+      const file =
+        this.files[0];
+
+
+      if (!file) {
+
+        return;
+
+      }
+
+
+      try {
+
+        let text =
+          await file.text();
+
+
+        text =
+          text.replace(
+            /^\uFEFF/,
+            ""
+          );
+
+
+        const loadedSongs =
+          parseCSV(
+            text
+          );
+
+
+        if (
+          loadedSongs.length === 0
+        ) {
+
+          alert(
+            "曲データが見つかりませんでした"
+          );
+
+
+          this.value = "";
+
+          return;
+
+        }
+
+
+        const ok =
+          confirm(
+            `${loadedSongs.length}曲を読み込みます。\n現在の編集内容は置き換わります。\nよろしいですか？`
+          );
+
+
+        if (!ok) {
+
+          this.value = "";
+
+          return;
+
+        }
+
+
+        songs =
+          loadedSongs;
+
+
+        /*
+          選択状態を解除
+        */
+
+        selectedSongs.clear();
+
+
+        /*
+          編集状態を解除
+        */
+
+        editingIndex =
+          null;
+
+
+        /*
+          検索をリセット
+        */
+
+        document
+          .getElementById(
+            "search"
+          )
+          .value = "";
+
+
+        /*
+          得意曲フィルターを
+          すべてに戻す
+        */
+
+        document
+          .getElementById(
+            "favoriteFilter"
+          )
+          .value =
+            "all";
+
+
+        /*
+          ジャンルを作り直す
+        */
+
+        createGenreOptions();
+
+
+        /*
+          ジャンル絞り込みを
+          すべてに戻す
+        */
+
+        document
+          .getElementById(
+            "genreFilter"
+          )
+          .value =
+            "すべて";
+
+
+        render();
+
+
+        alert(
+          `${songs.length}曲を読み込みました`
+        );
+
+
+      } catch (error) {
+
+        console.error(
+          error
+        );
+
+
+        alert(
+          "CSVファイルを読み込めませんでした"
+        );
+
+      }
+
+
+      /*
+        同じファイルを
+        もう一度選択可能にする
+      */
+
+      this.value = "";
+
+    }
+  );
+
+
+
+/* =========================
    CSV解析
 ========================= */
 
@@ -1183,6 +1387,19 @@ function parseCSV(text) {
       .trim()
       .split(/\r?\n/);
 
+
+  if (
+    lines.length === 0
+  ) {
+
+    return [];
+
+  }
+
+
+  /*
+    ヘッダーを削除
+  */
 
   lines.shift();
 
@@ -1350,9 +1567,9 @@ function createGenreOptions() {
     getGenres();
 
 
-  /* ---------------------
-     絞り込み
-  --------------------- */
+  /*
+    絞り込み
+  */
 
   const filter =
     document.getElementById(
@@ -1405,9 +1622,9 @@ function createGenreOptions() {
 
 
 
-  /* ---------------------
-     1曲編集
-  --------------------- */
+  /*
+    1曲編集
+  */
 
   const editor =
     document.getElementById(
@@ -1459,9 +1676,9 @@ function createGenreOptions() {
 
 
 
-  /* ---------------------
-     一括変更
-  --------------------- */
+  /*
+    一括変更
+  */
 
   const bulk =
     document.getElementById(
@@ -1673,10 +1890,6 @@ function render() {
 
 
 
-      /* ------------------
-         チェック
-      ------------------ */
-
       const checkbox =
         document.createElement(
           "input"
@@ -1723,10 +1936,6 @@ function render() {
 
 
 
-      /* ------------------
-         曲情報
-      ------------------ */
-
       const info =
         document.createElement(
           "div"
@@ -1746,10 +1955,6 @@ function render() {
       title.className =
         "song-title";
 
-
-      /*
-        CSV上の番号
-      */
 
       title.textContent =
         `${index + 1}. `
@@ -1793,10 +1998,6 @@ function render() {
 
 
 
-      /* ------------------
-         編集
-      ------------------ */
-
       const edit =
         document.createElement(
           "button"
@@ -1817,10 +2018,6 @@ function render() {
           );
 
 
-
-      /* ------------------
-         削除
-      ------------------ */
 
       const del =
         document.createElement(
@@ -1990,9 +2187,7 @@ function updateSelectionPanel() {
    1つ上・下
 ========================= */
 
-function moveSelected(
-  direction
-) {
+function moveSelected(direction) {
 
   if (
     selectedSongs.size === 0
@@ -2017,9 +2212,7 @@ function moveSelected(
         selectedSongs.has(
           songs[i]
         )
-
         &&
-
         !selectedSongs.has(
           songs[i - 1]
         )
@@ -2058,9 +2251,7 @@ function moveSelected(
         selectedSongs.has(
           songs[i]
         )
-
         &&
-
         !selectedSongs.has(
           songs[i + 1]
         )
@@ -2209,9 +2400,7 @@ function moveToPosition() {
     !Number.isInteger(
       position
     )
-
     ||
-
     position < 1
   ) {
 
@@ -2293,10 +2482,6 @@ function changeSelectedGenre() {
   }
 
 
-  /*
-    既存ジャンル
-  */
-
   const selectedGenre =
     document
       .getElementById(
@@ -2304,10 +2489,6 @@ function changeSelectedGenre() {
       )
       .value;
 
-
-  /*
-    新しいジャンル
-  */
 
   const newGenre =
     document
@@ -2317,10 +2498,6 @@ function changeSelectedGenre() {
       .value
       .trim();
 
-
-  /*
-    新規入力を優先
-  */
 
   const genre =
     newGenre
@@ -2364,10 +2541,6 @@ function changeSelectedGenre() {
   );
 
 
-  /*
-    新ジャンル入力欄を空に
-  */
-
   document
     .getElementById(
       "bulkNewGenre"
@@ -2375,18 +2548,8 @@ function changeSelectedGenre() {
     .value = "";
 
 
-  /*
-    新しいジャンルを
-    選択肢にも反映
-  */
-
   createGenreOptions();
 
-
-  /*
-    今回設定したジャンルを
-    一括変更欄で選択状態にする
-  */
 
   const bulk =
     document.getElementById(
@@ -2494,9 +2657,7 @@ function openAdd() {
    曲編集
 ========================= */
 
-function openEdit(
-  index
-) {
+function openEdit(index) {
 
   editingIndex =
     index;
@@ -2606,10 +2767,6 @@ function saveSong() {
       .trim();
 
 
-  /*
-    新ジャンルを優先
-  */
-
   const genre =
     newGenre
     ||
@@ -2708,9 +2865,7 @@ function saveSong() {
    削除
 ========================= */
 
-function deleteSong(
-  index
-) {
+function deleteSong(index) {
 
   const song =
     songs[index];
